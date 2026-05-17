@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel/
+
+# Environment (secrets)
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Optional local overrides
+*.local
+.vercel

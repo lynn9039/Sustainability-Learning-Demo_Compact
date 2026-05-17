@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPF Screening Methodology — Summary Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* === CPF GREEN FLASH THEME VARIABLES === */
+:root {
+  --forest:    #1a3a2a;
+  --sage:      #3d6b50;
+  --mint:      #7ab895;
+  --leaf:      #a8d5b5;
+  --cream:     #f5f0e8;
+  --parchment: #ede6d3;
+  --stone:     #8c8070;
+  --ink:       #1e1a14;
+  --gold:      #c4922a;
+  --sky:       #2a5c8a;
+  --rust:      #b84a22;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-normal: 0.6s;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* === VIEWPORT BASE (MANDATORY) === */
+html, body { height:100%; overflow-x:hidden; }
+html { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+.slide {
+  width:100vw; height:100vh; height:100dvh;
+  overflow:hidden; scroll-snap-align:start;
+  display:flex; flex-direction:column; position:relative;
+}
+.slide-content {
+  flex:1; display:flex; flex-direction:column; justify-content:center;
+  max-height:100%; overflow:hidden;
+  padding:clamp(1.5rem,4vw,4rem);
+}
+
+/* === PROGRESS BAR === */
+.progress-bar {
+  position:fixed; top:0; left:0; height:3px;
+  background:var(--mint); z-index:1000; width:0;
+  transition:width 0.3s ease;
+}
+
+/* === NAV DOTS === */
+.nav-dots {
+  position:fixed; right:clamp(12px,1.5vw,24px); top:50%;
+  transform:translateY(-50%); display:flex; flex-direction:column;
+  gap:clamp(6px,0.8vh,10px); z-index:999;
+}
+.nav-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(122,184,149,0.3); border:none; cursor:pointer;
+  transition:all 0.3s ease; padding:0;
+}
+.nav-dot.active { background:var(--mint); transform:scale(1.4); }
+
+/* === ANIMATIONS === */
+.reveal {
+  opacity:0; transform:translateY(30px);
+  transition:opacity var(--duration-normal) var(--ease-out-expo),
+             transform var(--duration-normal) var(--ease-out-expo);
+}
+.slide.visible .reveal { opacity:1; transform:translateY(0); }
+.reveal:nth-child(1){transition-delay:0.1s}
+.reveal:nth-child(2){transition-delay:0.2s}
+.reveal:nth-child(3){transition-delay:0.3s}
+.reveal:nth-child(4){transition-delay:0.4s}
+.reveal:nth-child(5){transition-delay:0.5s}
+.reveal:nth-child(6){transition-delay:0.6s}
+</style>
+<style>
+/* === SLIDE TYPES === */
+
+/* -- Title Slide -- */
+.slide-title {
+  background:var(--forest); position:relative;
+}
+.slide-title::before {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 48px,rgba(255,255,255,.018) 48px,rgba(255,255,255,.018) 96px);
+  pointer-events:none;
+}
+.slide-title::after {
+  content:''; position:absolute; bottom:-20%; right:-10%;
+  width:clamp(200px,40vw,500px); height:clamp(200px,40vw,500px);
+  border-radius:50%; background:radial-gradient(circle,rgba(122,184,149,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.slide-title .eyebrow {
+  font-family:var(--font-mono); font-size:clamp(0.55rem,1vw,0.7rem);
+  letter-spacing:0.22em; color:var(--mint); text-transform:uppercase;
+  margin-bottom:clamp(0.5rem,1.5vh,1rem);
+}
+.slide-title h1 {
+  font-family:var(--font-display); font-weight:900;
+  font-size:clamp(2rem,6vw,4.5rem); color:var(--cream);
+  line-height:1.04; letter-spacing:-0.5px;
+}
+.slide-title h1 em { color:var(--mint); font-style:normal; }
+.slide-title .tagline {
+  margin-top:clamp(0.5rem,1.5vh,1rem);
+  color:rgba(245,240,232,0.5); font-family:var(--font-body);
+  font-size:clamp(0.75rem,1.5vw,1.1rem); font-weight:300;
+  letter-spacing:0.04em; max-width:600px;
+}
+.slide-title .pills {
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin-top:clamp(1rem,3vh,2rem); padding-top:clamp(0.8rem,2vh,1.5rem);
+  border-top:1px solid rgba(255,255,255,0.1);
+}
+.pill {
+  background:rgba(122,184,149,0.16); border:1px solid rgba(122,184,149,0.28);
+  border-radius:20px; padding:4px 14px;
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.8vw,0.625rem);
+  color:var(--leaf); letter-spacing:0.1em; text-transform:uppercase;
+}
+
+/* -- Dark Content Slide -- */
+.slide-dark {
+  background:var(--forest); position:relative;
+}
+.slide-dark::before {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 48px,rgba(255,255,255,.018) 48px,rgba(255,255,255,.018) 96px);
+  pointer-events:none;
+}
+.slide-dark .slide-content { position:relative; z-index:1; }
+.slide-dark .sec-label {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.9vw,0.625rem);
+  letter-spacing:0.25em; color:var(--mint); text-transform:uppercase;
+  margin-bottom:clamp(0.4rem,1vh,0.75rem);
+}
+.slide-dark h2 {
+  font-family:var(--font-display); font-weight:900;
+  font-size:clamp(1.3rem,3.5vw,2.5rem); color:var(--cream);
+  line-height:1.15; margin-bottom:clamp(0.5rem,2vh,1.5rem);
+}
+.slide-dark p {
+  font-family:var(--font-body); font-size:clamp(0.7rem,1.3vw,1rem);
+  color:rgba(245,240,232,0.78); line-height:1.7; max-width:750px;
+}
+
+/* -- Light Content Slide -- */
+.slide-light { background:var(--cream); }
+.slide-light .sec-label {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.9vw,0.625rem);
+  letter-spacing:0.25em; color:var(--sage); text-transform:uppercase;
+  margin-bottom:clamp(0.4rem,1vh,0.75rem);
+}
+.slide-light h2 {
+  font-family:var(--font-display); font-weight:900;
+  font-size:clamp(1.3rem,3.5vw,2.5rem); color:var(--forest);
+  line-height:1.15; margin-bottom:clamp(0.5rem,2vh,1.5rem);
+}
+.slide-light p {
+  font-family:var(--font-body); font-size:clamp(0.7rem,1.3vw,1rem);
+  color:var(--ink); line-height:1.7; max-width:750px;
+}
+
+/* === REUSABLE COMPONENTS === */
+
+/* Stat Grid */
+.stat-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));
+  gap:clamp(0.5rem,1.2vw,1rem); margin-top:clamp(0.8rem,2vh,1.5rem);
+}
+.stat-card {
+  background:rgba(122,184,149,0.13); border-left:3px solid var(--mint);
+  border-radius:0 7px 7px 0; padding:clamp(0.5rem,1.2vh,0.8rem) clamp(0.6rem,1.2vw,1rem);
+}
+.stat-card .num {
+  font-family:var(--font-display); font-weight:900;
+  font-size:clamp(1.2rem,3vw,2.2rem); color:var(--cream); line-height:1;
+}
+.stat-card .label {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.8vw,0.6rem);
+  color:var(--leaf); letter-spacing:0.06em; text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* Light stat card variant */
+.stat-card-light {
+  background:rgba(61,107,80,0.08); border-left:3px solid var(--sage);
+  border-radius:0 7px 7px 0; padding:clamp(0.5rem,1.2vh,0.8rem) clamp(0.6rem,1.2vw,1rem);
+}
+.stat-card-light .num {
+  font-family:var(--font-display); font-weight:900;
+  font-size:clamp(1.2rem,3vw,2.2rem); color:var(--forest); line-height:1;
+}
+.stat-card-light .label {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.8vw,0.6rem);
+  color:var(--sage); letter-spacing:0.06em; text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* Feature list */
+.feature-list {
+  list-style:none; display:flex; flex-direction:column;
+  gap:clamp(0.4rem,1vh,0.8rem); margin-top:clamp(0.5rem,1.5vh,1rem);
+}
+.feature-list li {
+  font-family:var(--font-body); font-size:clamp(0.7rem,1.2vw,0.95rem);
+  line-height:1.5; padding-left:1.2em; position:relative;
+}
+.feature-list li::before {
+  content:''; position:absolute; left:0; top:0.55em;
+  width:6px; height:6px; border-radius:50%;
+}
+.slide-dark .feature-list li { color:rgba(245,240,232,0.82); }
+.slide-dark .feature-list li::before { background:var(--mint); }
+.slide-light .feature-list li { color:var(--ink); }
+.slide-light .feature-list li::before { background:var(--sage); }
+
+/* Callout box */
+.callout {
+  background:rgba(122,184,149,0.1); border-left:3px solid var(--mint);
+  border-radius:0 8px 8px 0;
+  padding:clamp(0.5rem,1.2vh,0.8rem) clamp(0.6rem,1.5vw,1.2rem);
+  margin-top:clamp(0.5rem,1.5vh,1rem);
+}
+.callout-light {
+  background:#f3f8f4; border-left:3px solid var(--sage);
+  border-radius:0 8px 8px 0;
+  padding:clamp(0.5rem,1.2vh,0.8rem) clamp(0.6rem,1.5vw,1.2rem);
+  margin-top:clamp(0.5rem,1.5vh,1rem);
+}
+.callout p, .callout-light p {
+  font-size:clamp(0.65rem,1.1vw,0.85rem); line-height:1.6;
+}
+.callout-light p { color:var(--forest); }
+.callout strong { color:var(--leaf); }
+.callout-light strong { color:var(--sage); }
+
+/* Pillar cards */
+.pillar-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:clamp(0.5rem,1.2vw,1rem); margin-top:clamp(0.8rem,2vh,1.5rem);
+}
+.pillar {
+  border-radius:10px; padding:clamp(0.6rem,1.5vh,1.2rem) clamp(0.6rem,1.2vw,1rem);
+  display:flex; flex-direction:column; gap:clamp(0.3rem,0.6vh,0.5rem);
+}
+.pillar-dark {
+  background:rgba(122,184,149,0.1); border:1px solid rgba(122,184,149,0.2);
+}
+.pillar-light {
+  background:white; border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+}
+.pillar .pillar-num {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.8vw,0.6rem);
+  letter-spacing:0.15em; text-transform:uppercase;
+}
+.pillar-dark .pillar-num { color:var(--mint); }
+.pillar-light .pillar-num { color:var(--sage); }
+.pillar h3 {
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(0.8rem,1.5vw,1.15rem); line-height:1.25;
+}
+.pillar-dark h3 { color:var(--cream); }
+.pillar-light h3 { color:var(--forest); }
+.pillar p {
+  font-size:clamp(0.6rem,1vw,0.8rem); line-height:1.55;
+}
+.pillar-dark p { color:rgba(245,240,232,0.65); }
+.pillar-light p { color:var(--stone); }
+
+/* Tag pills */
+.tag-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:clamp(0.4rem,1vh,0.8rem); }
+.tag {
+  font-family:var(--font-mono); font-size:clamp(0.45rem,0.7vw,0.55rem);
+  letter-spacing:0.1em; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px;
+}
+.tag-green { background:#e8f4eb; color:#2a6640; border:1px solid #b5d9be; }
+.tag-blue  { background:#e0f0ff; color:#0a3a6a; border:1px solid #90c0f0; }
+.tag-amber { background:#fef4e0; color:#7a4a0a; border:1px solid #f0d090; }
+.tag-red   { background:#fce8e8; color:#8a2020; border:1px solid #f0b0b0; }
+.tag-purple{ background:#f0e8f8; color:#4a1a7a; border:1px solid #c8a8e8; }
+
+/* Two-column layout */
+.two-col {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:clamp(1rem,2.5vw,2.5rem); align-items:start;
+}
+
+/* Scope table */
+.scope-row {
+  display:flex; align-items:center; gap:clamp(0.5rem,1vw,1rem);
+  padding:clamp(0.4rem,0.8vh,0.6rem) 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.scope-row:last-child { border-bottom:none; }
+.scope-icon {
+  font-size:clamp(1rem,2vw,1.5rem); flex-shrink:0;
+  width:clamp(1.5rem,3vw,2.5rem); text-align:center;
+}
+.scope-text h4 {
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(0.75rem,1.3vw,1rem); color:var(--cream); line-height:1.3;
+}
+.scope-text p {
+  font-size:clamp(0.6rem,1vw,0.8rem); color:rgba(245,240,232,0.6);
+  line-height:1.5; margin-top:2px;
+}
+
+/* Footer slide */
+.slide-footer { background:var(--forest); }
+.slide-footer .ft-title {
+  font-family:var(--font-display); font-style:italic;
+  font-size:clamp(0.8rem,1.5vw,1.1rem); color:var(--cream);
+  margin-top:clamp(1rem,3vh,2rem);
+}
+.slide-footer .ft-meta {
+  font-family:var(--font-mono); font-size:clamp(0.5rem,0.8vw,0.625rem);
+  color:rgba(245,240,232,0.38); letter-spacing:0.1em; text-transform:uppercase;
+  margin-top:clamp(0.3rem,0.8vh,0.5rem);
+}
+
+/* === RESPONSIVE === */
+@media (max-width:700px) {
+  .pillar-grid { grid-template-columns:1fr; }
+  .two-col { grid-template-columns:1fr; }
+}
+@media (max-height:600px) {
+  .nav-dots { display:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.2s!important; }
+  html { scroll-behavior:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- === PROGRESS BAR === -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- === NAV DOTS === -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 1: TITLE                              -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-title">
+  <div class="slide-content">
+    <p class="eyebrow reveal">Amazon · Climate Pledge Friendly</p>
+    <h1 class="reveal">CPF Screening<br><em>Methodology</em></h1>
+    <p class="tagline reveal">How we identify eligible sustainability certifications and products for the Climate Pledge Friendly program</p>
+    <div class="pills reveal">
+      <span class="pill">White Paper Summary</span>
+      <span class="pill">450+ Certifications Screened</span>
+      <span class="pill">61 Eligible</span>
+      <span class="pill">10 Sustainability Attributes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 2: WHAT IS CPF                        -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-light">
+  <div class="slide-content">
+    <p class="sec-label reveal">Introduction</p>
+    <h2 class="reveal">What Is Climate Pledge Friendly?</h2>
+    <p class="reveal" style="margin-bottom:clamp(0.5rem,1.5vh,1rem);">Launched in 2020, CPF helps Amazon customers discover and shop for products with sustainability features. It is not itself a certification — it recognizes third-party certifications relevant to climate, environment, human health, and social welfare.</p>
+    <div class="stat-grid reveal">
+      <div class="stat-card-light">
+        <div class="num">450+</div>
+        <div class="label">Certifications Screened</div>
+      </div>
+      <div class="stat-card-light">
+        <div class="num">61</div>
+        <div class="label">Met Screening Standards</div>
+      </div>
+      <div class="stat-card-light">
+        <div class="num">10</div>
+        <div class="label">Sustainability Attributes</div>
+      </div>
+      <div class="stat-card-light">
+        <div class="num">18</div>
+        <div class="label">Product Categories</div>
+      </div>
+    </div>
+    <div class="callout-light reveal">
+      <p><strong>Customer Experience:</strong> Eligible products are surfaced with a green leaf icon, a sustainability feature description (e.g., "safer chemicals," "recycled materials"), and the CPF badge.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 3: TWO-TIER STRUCTURE                 -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-dark">
+  <div class="slide-content">
+    <p class="sec-label reveal">Methodology Overview</p>
+    <h2 class="reveal">Two-Tier Screening Structure</h2>
+    <p class="reveal">The methodology operates at two levels to ensure both the certification program and the individual product meet CPF standards.</p>
+    <div class="two-col reveal" style="margin-top:clamp(0.8rem,2vh,1.5rem);">
+      <div class="pillar pillar-dark">
+        <span class="pillar-num">Tier 1</span>
+        <h3>Certification-Level</h3>
+        <p>Evaluates the strength of certification protocols: governance, credibility, verification methods, and scope of sustainability claims.</p>
+        <div class="tag-row">
+          <span class="tag tag-green">Programmatic</span>
+          <span class="tag tag-blue">Credibility</span>
+          <span class="tag tag-amber">Scope</span>
+        </div>
+      </div>
+      <div class="pillar pillar-dark">
+        <span class="pillar-num">Tier 2</span>
+        <h3>Product-Level</h3>
+        <p>Applies additional guardrails to individual certified products: material thresholds, recycled content minimums, and category exclusions.</p>
+        <div class="tag-row">
+          <span class="tag tag-green">Thresholds</span>
+          <span class="tag tag-red">Exclusions</span>
+          <span class="tag tag-purple">Quality</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 4: THREE PILLARS                      -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-light">
+  <div class="slide-content">
+    <p class="sec-label reveal">Certification-Level Requirements</p>
+    <h2 class="reveal">Three Core Screening Themes</h2>
+    <div class="pillar-grid reveal">
+      <div class="pillar pillar-light">
+        <span class="pillar-num">Theme 01</span>
+        <h3>Foundational Programmatic</h3>
+        <p>Must address climate or environmental impacts. Must recognize product-level sustainability improvements. Must establish fixed, absolute performance thresholds with independent verification.</p>
+      </div>
+      <div class="pillar pillar-light">
+        <span class="pillar-num">Theme 02</span>
+        <h3>Credibility, Data &amp; Governance</h3>
+        <p>12 requirements covering: regular standard updates, assessor independence, verification methods, public disclosure, mandatory language, and recognized accreditation (EPA, ISEAL, ISO 14024, etc.).</p>
+      </div>
+      <div class="pillar pillar-light">
+        <span class="pillar-num">Theme 03</span>
+        <h3>Scope &amp; Relevance</h3>
+        <p>Determines if a certification sufficiently addresses the sustainability issues it claims. Assessed per product category for granular accuracy. Three pathways: Carbon, Energy, Multi-Attribute.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 5: THREE SCOPES                       -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-dark">
+  <div class="slide-content">
+    <p class="sec-label reveal">Scope &amp; Relevance</p>
+    <h2 class="reveal">Three Certification Scopes</h2>
+    <div style="margin-top:clamp(0.5rem,1.5vh,1rem);">
+      <div class="scope-row reveal">
+        <span class="scope-icon">🌡️</span>
+        <div class="scope-text">
+          <h4>Carbon-Focused</h4>
+          <p>Certifications verifying carbon reduction or carbon reducing + offsets. Requires GHG Protocol compliance, third-party assurance, reduction plans, and full lifecycle measurement (cradle-to-grave). Carbon neutral certifications are being phased out.</p>
+        </div>
+      </div>
+      <div class="scope-row reveal">
+        <span class="scope-icon">⚡</span>
+        <div class="scope-text">
+          <h4>Energy-Focused</h4>
+          <p>Certifications verifying energy reduction at point-of-use (electronics only) or manufacturing phase (all categories). Manufacturing pathway requires chain of custody and covers electricity reduction, on-site renewables, and off-site EACs.</p>
+        </div>
+      </div>
+      <div class="scope-row reveal">
+        <span class="scope-icon">🌿</span>
+        <div class="scope-text">
+          <h4>Multi-Attribute</h4>
+          <p>Certifications addressing multiple sustainability indicators. Scored across 10 attributes per product category using a green/yellow/red framework. Must achieve at least 2 greens, or 1 green + 2 yellows, to pass.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 6: 10 ATTRIBUTES                      -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-light">
+  <div class="slide-content">
+    <p class="sec-label reveal">Multi-Attribute Framework</p>
+    <h2 class="reveal">10 Sustainability Attributes</h2>
+    <div class="two-col reveal" style="margin-top:clamp(0.5rem,1.5vh,1rem);">
+      <ul class="feature-list">
+        <li><strong style="color:var(--sage)">Climate Impact</strong> — GHG emissions reduction &amp; sequestration</li>
+        <li><strong style="color:var(--sage)">Energy Use</strong> — Manufacturing &amp; point-of-use energy consumption</li>
+        <li><strong style="color:var(--sage)">Soil Health</strong> — Regenerative practices, pesticide restrictions</li>
+        <li><strong style="color:var(--sage)">Solid Waste</strong> — Waste reduction, recycled inputs, refill/reuse</li>
+        <li><strong style="color:var(--sage)">Water Use</strong> — Water reduction, reuse/recycling in operations</li>
+      </ul>
+      <ul class="feature-list">
+        <li><strong style="color:var(--sage)">Biodiversity</strong> — Ecosystem conversion bans, habitat restoration</li>
+        <li><strong style="color:var(--sage)">Workers' Health &amp; Welfare</strong> — ILO conventions, labor rights</li>
+        <li><strong style="color:var(--sage)">Animal Welfare</strong> — Five domains: nutrition, environment, health, behavior, mental state</li>
+        <li><strong style="color:var(--sage)">Pollution / Chemicals</strong> — RSL compliance, wastewater, air quality</li>
+        <li><strong style="color:var(--sage)">Ecosystem / Resource Use</strong> — Sustainable harvesting, indigenous rights (FPIC)</li>
+      </ul>
+    </div>
+    <div class="callout-light reveal">
+      <p><strong>Scoring:</strong> Each attribute is rated Green (1 strong or 2 moderate actions), Yellow (1 moderate), or Red (none). Pass requires ≥2 Greens or 1 Green + 2 Yellows per product category.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 7: PRODUCT-LEVEL REQUIREMENTS         -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-dark">
+  <div class="slide-content">
+    <p class="sec-label reveal">Product-Level Requirements</p>
+    <h2 class="reveal">Additional Guardrails for Products</h2>
+    <p class="reveal">Even after a certification passes, individual products must meet additional due diligence requirements before receiving the CPF badge.</p>
+    <div class="pillar-grid reveal" style="margin-top:clamp(0.8rem,2vh,1.5rem);">
+      <div class="pillar pillar-dark">
+        <span class="pillar-num">Material Thresholds</span>
+        <h3>≥ 50%</h3>
+        <p>Certified material by weight for material-claim certifications (e.g., FSC wood, organic cotton)</p>
+      </div>
+      <div class="pillar pillar-dark">
+        <span class="pillar-num">Recycled Content</span>
+        <h3>10–50%</h3>
+        <p>Varies by product category. 50% for textiles, 30% for smartphones, 10% for gaming devices &amp; TVs</p>
+      </div>
+      <div class="pillar pillar-dark">
+        <span class="pillar-num">Exclusion List</span>
+        <h3>11 Categories</h3>
+        <p>Beef, gas-powered tools, aerosols, single-use plastic bottles, fur, e-cigarettes, glitter, and more</p>
+      </div>
+    </div>
+    <div class="callout reveal">
+      <p><strong>Reduction thresholds:</strong> Energy and water reduction claims require ≥10% verified reduction against a specified baseline, varying by product category.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 8: GOVERNANCE & CHANGE MODEL          -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-light">
+  <div class="slide-content">
+    <p class="sec-label reveal">Governance</p>
+    <h2 class="reveal">Change Model &amp; Reassessment</h2>
+    <div class="two-col reveal" style="margin-top:clamp(0.5rem,1.5vh,1rem);">
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--forest);margin-bottom:clamp(0.3rem,0.8vh,0.5rem);">Guiding Principles</h3>
+        <ul class="feature-list">
+          <li>Prioritize requirements that meaningfully improve product sustainability</li>
+          <li>Rely on established sustainability science and expert validation</li>
+          <li>Create clear, repeatable evaluation requirements for consistent decisions</li>
+          <li>Recognize and amplify industry-leading sustainability innovation</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--forest);margin-bottom:clamp(0.3rem,0.8vh,0.5rem);">Review Cadence</h3>
+        <ul class="feature-list">
+          <li>Screening requirements reviewed and updated regularly for scientific rigor</li>
+          <li>Biennial reassessment of all existing certifications</li>
+          <li>Updated criteria take immediate effect for new applications</li>
+          <li>Existing certifications reassessed at next biennial review</li>
+          <li>30-day appeal window for certifications that do not pass</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout-light reveal">
+      <p><strong>Critical Review:</strong> The methodology is reviewed by 5 external stakeholders who evaluate the methodology, reasoning, and assumptions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SLIDE 9: CLOSING                            -->
+<!-- ════════════════════════════════════════════ -->
+<section class="slide slide-title slide-footer">
+  <div class="slide-content" style="justify-content:center;align-items:center;text-align:center;">
+    <p class="eyebrow reveal">Amazon · Climate Pledge Friendly</p>
+    <h1 class="reveal" style="font-size:clamp(1.8rem,5vw,3.5rem);">Rigorous. Transparent.<br><em>Science-Driven.</em></h1>
+    <p class="tagline reveal" style="text-align:center;max-width:550px;">A dynamic screening methodology that evolves with sustainability science to help customers make more informed choices.</p>
+    <p class="ft-title reveal">CPF Screening Methodology — White Paper Summary</p>
+    <p class="ft-meta reveal">Amazon · Privileged &amp; Confidential</p>
+  </div>
+</section>
+
+<!-- === SLIDE PRESENTATION CONTROLLER === -->
+<script>
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.currentSlide = 0;
+    this.isScrolling = false;
+    this.setupIntersectionObserver();
+    this.setupKeyboardNav();
+    this.setupTouchNav();
+    this.setupProgressBar();
+    this.setupNavDots();
+  }
+
+  setupIntersectionObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const idx = Array.from(this.slides).indexOf(entry.target);
+          this.currentSlide = idx;
+          this.updateProgressBar();
+          this.updateNavDots();
+        }
+      });
+    }, { threshold: 0.5 });
+    this.slides.forEach(slide => observer.observe(slide));
+  }
+
+  setupKeyboardNav() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        this.goToSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.goToSlide(Math.max(this.currentSlide - 1, 0));
+      }
+    });
+  }
+
+  setupTouchNav() {
+    let startY = 0;
+    document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) this.goToSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+        else this.goToSlide(Math.max(this.currentSlide - 1, 0));
+      }
+    }, { passive: true });
+  }
+
+  setupProgressBar() {
+    this.progressBar = document.getElementById('progressBar');
+    this.updateProgressBar();
+  }
+
+  updateProgressBar() {
+    if (this.progressBar) {
+      const pct = ((this.currentSlide + 1) / this.slides.length) * 100;
+      this.progressBar.style.width = pct + '%';
+    }
+  }
+
+  setupNavDots() {
+    const container = document.getElementById('navDots');
+    if (!container) return;
+    container.innerHTML = '';
+    this.slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', () => this.goToSlide(i));
+      container.appendChild(dot);
+    });
+  }
+
+  updateNavDots() {
+    const dots = document.querySelectorAll('.nav-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === this.currentSlide);
+    });
+  }
+
+  goToSlide(index) {
+    this.slides[index].scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+new SlidePresentation();
+</script>
+
+</body>
+</html>

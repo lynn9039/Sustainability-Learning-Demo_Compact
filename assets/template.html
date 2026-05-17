@@ -1,0 +1,596 @@
+<!--
+  Sustainability Learning Page — TEMPLATE
+  Replace every {{PLACEHOLDER}} with real content, then remove this comment.
+
+  Placeholders:
+    {{LANG}}              -> "en" | "zh"
+    {{PAGE_TITLE}}        -> <title> + hero title
+    {{SOURCE_TYPE}}       -> "LinkedIn post" | "Web article" | "Pasted text" | "YouTube video" (localized)
+    {{SOURCE_META}}       -> author / publisher / date (localized, or empty)
+    {{SOURCE_URL}}        -> absolute URL or #
+    {{SOURCE_URL_LABEL}}  -> short label for the source chip, e.g. "linkedin.com" or "youtube.com"
+    {{HERO_IMAGE_BLOCK}}  -> either an <img> tag wrapped in .hero-image, or empty string
+    {{LABEL_*}}           -> localized tab & section labels (see SKILL.md §6)
+    {{TAB1_HTML}}         -> full HTML for Tab 1 (ORDER: difficulty card → time card → summary card → optional key-facts card)
+    {{TAB2_HTML}}         -> full HTML for Tab 2 — MUST start with a .card.tab-intro containing a .time-card labelled "this analysis"
+    {{TAB3_HTML}}         -> full HTML for Tab 3 — same rule as Tab 2
+    {{GENERATED_ON}}      -> ISO date, e.g. "2026-05-05"
+-->
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{PAGE_TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sage-50:  #f3f6f2;
+    --sage-100: #e4ecdf;
+    --sage-200: #cddcc4;
+    --sage-300: #b1c6a4;
+    --sage-400: #8fae7f;
+    --sage-500: #6f9361;
+    --sage-600: #577a4b;
+    --sage-700: #44603b;
+    --sage-800: #344830;
+    --sage-900: #1f2c1d;
+    --ink:        var(--sage-900);
+    --ink-soft:   var(--sage-700);
+    --ink-muted:  var(--sage-500);
+    --line:       var(--sage-200);
+    --line-soft:  var(--sage-100);
+    --surface:    #ffffff;
+    --surface-sunken: var(--sage-50);
+    --s-0: 0; --s-1: 4px; --s-2: 8px; --s-3: 16px; --s-4: 24px; --s-5: 32px;
+    --s-6: 40px; --s-7: 48px; --s-8: 64px; --s-9: 80px; --s-10: 96px;
+    --radius-sm: 8px; --radius: 12px; --radius-lg: 16px;
+    --shadow-card:  0 1px 2px rgba(38,53,42,.04), 0 8px 24px rgba(38,53,42,.04);
+    --shadow-hover: 0 1px 2px rgba(38,53,42,.06), 0 12px 32px rgba(38,53,42,.06);
+    --font-sans: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px; line-height: 1.65;
+    color: var(--ink); background: var(--surface-sunken);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--sage-700); text-decoration: none; border-bottom: 1px solid var(--sage-200); }
+  a:hover { color: var(--sage-800); border-bottom-color: var(--sage-400); }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  p { margin: 0; }
+  .page { max-width: 960px; margin: 0 auto; padding: var(--s-7) var(--s-4) var(--s-9); }
+  .content { max-width: 760px; margin: 0 auto; }
+
+  .hero {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--s-6);
+    margin-bottom: var(--s-6);
+  }
+  .hero-image {
+    margin: 0 0 var(--s-5) 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--sage-50);
+    border: 1px solid var(--line-soft);
+  }
+  .hero-image img { width: 100%; height: auto; object-fit: cover; max-height: 360px; }
+  .hero-type {
+    display: inline-block;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--sage-700); background: var(--sage-100);
+    padding: var(--s-1) var(--s-2);
+    border-radius: 999px;
+    margin-bottom: var(--s-3);
+  }
+  .hero h1 { font-size: 32px; line-height: 1.25; margin-bottom: var(--s-3); }
+  .hero-subtitle { font-size: 17px; color: var(--ink-soft); line-height: 1.55; margin-bottom: var(--s-4); max-width: 640px; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: var(--s-3);
+    align-items: center; font-size: 14px; color: var(--ink-muted);
+  }
+  .source-chip {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    padding: var(--s-1) var(--s-3);
+    background: var(--surface-sunken);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft); font-size: 13px;
+  }
+  .source-chip:hover { background: var(--sage-100); color: var(--sage-800); }
+  .source-chip svg { width: 14px; height: 14px; }
+
+  .tablist {
+    display: flex; gap: var(--s-4);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-5);
+    padding: 0 var(--s-2);
+    flex-wrap: wrap;
+  }
+  .tab {
+    appearance: none; background: none; border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--ink-muted);
+    font: inherit; font-weight: 500; font-size: 15px;
+    padding: var(--s-3) var(--s-2);
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: color 150ms ease, border-color 150ms ease;
+    display: inline-flex; align-items: center; gap: var(--s-2);
+  }
+  .tab[aria-selected="true"] { color: var(--sage-800); border-bottom-color: var(--sage-600); font-weight: 600; }
+  .tab:hover { color: var(--sage-700); }
+  .tab:focus-visible { outline: 2px solid var(--sage-400); outline-offset: 4px; border-radius: 4px; }
+  .tab-index { font-size: 12px; color: var(--sage-500); font-variant-numeric: tabular-nums; }
+
+  .panel { display: none; }
+  .panel[data-active="true"] { display: block; animation: fade 180ms ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: var(--s-5);
+    margin-bottom: var(--s-4);
+  }
+  .card h2 { font-size: 18px; margin-bottom: var(--s-3); color: var(--sage-800); scroll-margin-top: 24px; }
+  .card h3 { font-size: 16px; margin: var(--s-4) 0 var(--s-2); color: var(--sage-800); scroll-margin-top: 24px; }
+  .card h4 { font-size: 14px; margin: var(--s-3) 0 var(--s-1); color: var(--sage-700); text-transform: uppercase; letter-spacing: 0.06em; }
+  .card p + p { margin-top: var(--s-3); }
+  .card ul, .card ol { margin: var(--s-2) 0; padding-left: var(--s-4); }
+  .card li { margin-bottom: var(--s-1); }
+  .card li::marker { color: var(--sage-400); }
+
+  /* Compact tab-intro card for the Tab 2 / Tab 3 reading-time meter */
+  .card.tab-intro { padding: var(--s-4) var(--s-5); }
+  .card.tab-intro .time-card { background: transparent; border: 0; padding: 0; }
+
+  .gauges { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+  @media (max-width: 560px) { .gauges { grid-template-columns: 1fr; } }
+  .gauge {
+    background: var(--surface-sunken);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--s-4);
+  }
+  .gauge-label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage-600); margin-bottom: var(--s-2); }
+  .gauge-level { font-size: 18px; font-weight: 600; color: var(--sage-800); margin-bottom: var(--s-1); }
+  .gauge-area { font-size: 13px; color: var(--ink-muted); margin-bottom: var(--s-2); font-style: italic; }
+  .dots { display: inline-flex; gap: var(--s-1); margin-bottom: var(--s-2); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sage-100); border: 1px solid var(--sage-200); }
+  .dot.on { background: var(--sage-500); border-color: var(--sage-600); }
+  .gauge-note { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+
+  .time-card {
+    display: flex; align-items: center; gap: var(--s-3);
+    background: var(--surface-sunken);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--s-4);
+  }
+  .time-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--sage-100); color: var(--sage-700);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .time-icon svg { width: 20px; height: 20px; }
+  .time-value { font-size: 18px; font-weight: 600; color: var(--sage-800); }
+  .time-sub { font-size: 13px; color: var(--ink-muted); }
+
+  .key-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+  .fact {
+    background: var(--surface-sunken);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--s-3);
+  }
+  .fact-value { font-size: 22px; font-weight: 700; color: var(--sage-800); line-height: 1.2; }
+  .fact-label { font-size: 12px; color: var(--ink-muted); margin-top: var(--s-1); letter-spacing: 0.04em; }
+
+  figure.diagram {
+    margin: var(--s-4) 0;
+    padding: var(--s-4);
+    background: var(--surface-sunken);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  figure.diagram svg { max-width: 640px; width: 100%; height: auto; }
+  figure.diagram figcaption { margin-top: var(--s-2); font-size: 13px; color: var(--ink-muted); font-style: italic; }
+
+  .callout {
+    border-left: 3px solid var(--sage-500);
+    background: var(--surface-sunken);
+    padding: var(--s-3) var(--s-4);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: var(--s-3) 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .callout strong { color: var(--sage-800); }
+
+  blockquote.quote {
+    margin: var(--s-3) 0;
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface-sunken);
+    border-left: 3px solid var(--sage-400);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 15px; font-style: italic; color: var(--ink-soft);
+  }
+  blockquote.quote cite { display: block; margin-top: var(--s-2); font-size: 13px; font-style: normal; color: var(--ink-muted); }
+
+  table.compare { width: 100%; border-collapse: collapse; margin: var(--s-3) 0; font-size: 14px; }
+  table.compare th, table.compare td { text-align: left; padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  table.compare th { background: var(--surface-sunken); color: var(--sage-800); font-weight: 600; }
+  table.compare tbody tr:hover { background: var(--surface-sunken); }
+  table.compare td:first-child { color: var(--sage-700); font-weight: 500; }
+
+  /* ============ Floating TOC — pearls on a string ============ */
+  .toc {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: max(var(--s-3), calc((100vw - 760px) / 2 - 210px));
+    width: 180px;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: var(--s-2) 0 var(--s-2) var(--s-3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+    z-index: 20;
+  }
+  .toc[data-visible="true"] { opacity: 1; pointer-events: auto; }
+  .toc-title {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sage-600);
+    padding-left: var(--s-4);
+    margin-bottom: var(--s-3);
+  }
+  .toc ol {
+    list-style: none; margin: 0; padding: 0;
+    position: relative;
+  }
+  .toc ol::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 10px; bottom: 10px;
+    width: 1px;
+    background: var(--sage-200);
+  }
+  .toc li { position: relative; margin: 0; }
+  .toc li::before {
+    content: "";
+    position: absolute;
+    left: -4.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 9px; height: 9px;
+    background: var(--surface);
+    border: 1.5px solid var(--sage-300);
+    border-radius: 50%;
+    transition: all 180ms ease;
+    z-index: 1;
+  }
+  .toc li[data-active="true"]::before {
+    background: var(--sage-600);
+    border-color: var(--sage-700);
+    box-shadow: 0 0 0 3px var(--sage-100);
+  }
+  .toc li[data-level="3"]::before {
+    width: 6px; height: 6px;
+    left: -3px;
+    border-width: 1px;
+  }
+  .toc a {
+    display: block;
+    padding: var(--s-2) 0 var(--s-2) var(--s-4);
+    color: var(--ink-muted);
+    border-bottom: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    transition: color 180ms ease;
+  }
+  .toc li[data-level="3"] a {
+    padding-left: calc(var(--s-4) + var(--s-3));
+    font-size: 12.5px;
+    color: var(--sage-500);
+  }
+  .toc a:hover { color: var(--sage-700); }
+  .toc li[data-active="true"] > a {
+    color: var(--sage-800);
+    font-weight: 600;
+  }
+  @media (max-width: 1100px) { .toc { display: none; } }
+
+  .footer {
+    margin-top: var(--s-7);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-muted);
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: var(--s-2);
+  }
+  .footer a { border-bottom: none; }
+
+  @media print {
+    body { background: white; }
+    .tablist, .toc { display: none; }
+    .panel { display: block !important; page-break-after: always; }
+    .card { box-shadow: none; border-color: #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating TOC — populated by JS, shown only when Tab 2 or Tab 3 is active and viewport is wide enough -->
+<nav class="toc" aria-label="{{LABEL_TOC_TITLE}}">
+  <div class="toc-title">{{LABEL_TOC_TITLE}}</div>
+  <ol></ol>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    {{HERO_IMAGE_BLOCK}}
+    <span class="hero-type">{{SOURCE_TYPE}}</span>
+    <h1>{{PAGE_TITLE}}</h1>
+    <div class="hero-meta">
+      <span>{{SOURCE_META}}</span>
+      <a class="source-chip" href="{{SOURCE_URL}}" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path>
+        </svg>
+        {{SOURCE_URL_LABEL}}
+      </a>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="tablist" role="tablist" aria-label="{{LABEL_TABLIST_ARIA}}">
+      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" data-panel="panel-1">
+        <span class="tab-index">01</span>{{LABEL_TAB1}}
+      </button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" data-panel="panel-2">
+        <span class="tab-index">02</span>{{LABEL_TAB2}}
+      </button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" data-panel="panel-3">
+        <span class="tab-index">03</span>{{LABEL_TAB3}}
+      </button>
+    </div>
+
+    <section class="panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1" data-active="true">
+      {{TAB1_HTML}}
+    </section>
+
+    <section class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" data-active="false">
+      {{TAB2_HTML}}
+    </section>
+
+    <section class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" data-active="false">
+      {{TAB3_HTML}}
+    </section>
+
+    <footer class="footer">
+      <span>{{LABEL_GENERATED}} · {{GENERATED_ON}}</span>
+      <a href="{{SOURCE_URL}}" target="_blank" rel="noopener noreferrer">{{LABEL_SOURCE}} ↗</a>
+    </footer>
+  </div>
+</main>
+
+<script>
+  // Tabs
+  (function () {
+    const tabs = document.querySelectorAll('[role="tab"]');
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    function activate(tab) {
+      tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+      const target = tab.dataset.panel;
+      panels.forEach(p => p.setAttribute('data-active', p.id === target ? 'true' : 'false'));
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('keydown', (e) => {
+        const list = Array.from(tabs);
+        const i = list.indexOf(e.currentTarget);
+        if (e.key === 'ArrowRight') { e.preventDefault(); const n = list[(i + 1) % list.length]; n.focus(); activate(n); }
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); const n = list[(i - 1 + list.length) % list.length]; n.focus(); activate(n); }
+        if (e.key === 'Home')       { e.preventDefault(); list[0].focus(); activate(list[0]); }
+        if (e.key === 'End')        { e.preventDefault(); list.at(-1).focus(); activate(list.at(-1)); }
+      });
+    });
+  })();
+
+  // Floating TOC with scrollspy — only for Tab 2 and Tab 3
+  (function () {
+    const tocEl = document.querySelector('.toc');
+    const tocList = tocEl && tocEl.querySelector('ol');
+    if (!tocEl || !tocList) return;
+
+    function slug(s, prefix, i) {
+      return `${prefix}-s${i}-` + s.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    }
+
+    let tocItems = [];             // { id, li, level, heading }
+    let pinnedId = null;           // click-sticky winner
+    let pinnedUntil = 0;
+    const PIN_DURATION = 800;
+    let pinBreakAttached = false;
+
+    function buildTocFor(panelId) {
+      tocList.innerHTML = '';
+      tocItems = [];
+      if (panelId === 'panel-1') {
+        tocEl.setAttribute('data-visible', 'false');
+        return;
+      }
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      const cards = panel.querySelectorAll('.card');
+      let i = 0;
+      cards.forEach(card => {
+        if (card.classList.contains('tab-intro')) return;
+        const headings = card.querySelectorAll('h2, h3');
+        headings.forEach(h => {
+          i += 1;
+          if (!h.id) h.id = slug(h.textContent, panelId, i);
+          const level = h.tagName === 'H3' ? 3 : 2;
+          const li = document.createElement('li');
+          li.dataset.level = String(level);
+          li.dataset.target = h.id;
+          const a = document.createElement('a');
+          a.href = '#' + h.id;
+          a.textContent = h.textContent.trim();
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById(h.id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            pinnedId = h.id;
+            pinnedUntil = Date.now() + PIN_DURATION;
+            setActive(pinnedId);
+            attachPinBreakers();
+          });
+          li.appendChild(a);
+          tocList.appendChild(li);
+          tocItems.push({ id: h.id, li, level, heading: h });
+        });
+      });
+      maybeShowToc();
+      if (!isPinned()) updateActive();
+    }
+
+    let currentActiveId = null;
+
+    function setActive(id) {
+      tocItems.forEach(it => {
+        it.li.setAttribute('data-active', it.id === id ? 'true' : 'false');
+      });
+      if (id !== currentActiveId) {
+        currentActiveId = id;
+        const it = tocItems.find(x => x.id === id);
+        if (it) ensureTocItemVisible(it.li);
+      }
+    }
+
+    // Scroll ONLY the TOC container so the active item is in view.
+    // Does not affect main-page scroll. Falls back gracefully if no overflow.
+    function ensureTocItemVisible(li) {
+      const container = tocEl;
+      if (!container || container.scrollHeight <= container.clientHeight + 1) return;
+      const liRect = li.getBoundingClientRect();
+      const cRect = container.getBoundingClientRect();
+      const liTop = liRect.top - cRect.top + container.scrollTop;
+      const liBottom = liTop + liRect.height;
+      const margin = 32;
+      const viewTop = container.scrollTop;
+      const viewBottom = viewTop + container.clientHeight;
+      let targetTop = null;
+      if (liTop < viewTop + margin) {
+        targetTop = Math.max(0, liTop - margin);
+      } else if (liBottom > viewBottom - margin) {
+        targetTop = liBottom - container.clientHeight + margin;
+      }
+      if (targetTop !== null) {
+        container.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
+    }
+
+    function isPinned() { return pinnedId && Date.now() < pinnedUntil; }
+
+    function attachPinBreakers() {
+      if (pinBreakAttached) return;
+      pinBreakAttached = true;
+      const release = () => {
+        pinnedId = null;
+        pinnedUntil = 0;
+        pinBreakAttached = false;
+        window.removeEventListener('wheel', release);
+        window.removeEventListener('touchmove', release);
+        window.removeEventListener('keydown', keyRelease);
+      };
+      const keyRelease = (e) => {
+        if (['ArrowUp','ArrowDown','PageUp','PageDown',' ','Home','End'].includes(e.key)) release();
+      };
+      window.addEventListener('wheel', release, { passive: true, once: true });
+      window.addEventListener('touchmove', release, { passive: true, once: true });
+      window.addEventListener('keydown', keyRelease);
+      setTimeout(() => { if (pinBreakAttached) release(); }, PIN_DURATION + 200);
+    }
+
+    function maybeShowToc() {
+      const active = document.querySelector('.panel[data-active="true"]');
+      if (!active || active.id === 'panel-1' || tocItems.length === 0) {
+        tocEl.setAttribute('data-visible', 'false');
+        return;
+      }
+      const show = window.scrollY > 30;
+      tocEl.setAttribute('data-visible', show ? 'true' : 'false');
+    }
+
+    // Threshold-based scrollspy with a *sliding* activation line:
+    //  - at the top of the page, heading must pass Y=140 (classic "near-top" behavior)
+    //  - at the bottom of the page, the line slides down to Y = vh - 100, so that
+    //    short bottom sections that can't be scrolled above Y=140 can still activate.
+    //  - final safety net: within 20px of the absolute bottom, force the last heading.
+    function updateActive() {
+      if (tocItems.length === 0) return;
+      const vh = window.innerHeight;
+      const docH = document.documentElement.scrollHeight;
+      const scrollY = window.scrollY;
+      const maxScroll = Math.max(1, docH - vh);
+      const progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+      const TOP_LINE = 140;
+      const BOTTOM_LINE = vh - 100;
+      const activationLine = TOP_LINE + (BOTTOM_LINE - TOP_LINE) * progress;
+
+      let currentId = tocItems[0].id;
+      for (const it of tocItems) {
+        const y = it.heading.getBoundingClientRect().top;
+        if (y <= activationLine) currentId = it.id;
+      }
+      if (docH - (scrollY + vh) < 20) {
+        currentId = tocItems[tocItems.length - 1].id;
+      }
+      setActive(currentId);
+    }
+
+    function onScroll() {
+      maybeShowToc();
+      if (!isPinned()) updateActive();
+    }
+
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    const panelObs = new MutationObserver(() => {
+      const active = document.querySelector('.panel[data-active="true"]');
+      if (active) buildTocFor(active.id);
+    });
+    panels.forEach(p => panelObs.observe(p, { attributes: true, attributeFilter: ['data-active'] }));
+
+    const initial = document.querySelector('.panel[data-active="true"]');
+    if (initial) buildTocFor(initial.id);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+</script>
+</body>
+</html>

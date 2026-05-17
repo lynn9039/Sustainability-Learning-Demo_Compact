@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPF Green Flash | Issue #2 | Mar 23–29, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest:    #1a3a2a;
+    --sage:      #3d6b50;
+    --mint:      #7ab895;
+    --leaf:      #a8d5b5;
+    --cream:     #f5f0e8;
+    --parchment: #ede6d3;
+    --stone:     #8c8070;
+    --ink:       #1e1a14;
+    --gold:      #c4922a;
+    --sky:       #2a5c8a;
+    --rust:      #b84a22;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--forest);
+    position: relative; overflow: hidden;
+  }
+  .masthead::before {
+    content:''; position:absolute; inset:0;
+    background: repeating-linear-gradient(-45deg,transparent,transparent 48px,rgba(255,255,255,.018) 48px,rgba(255,255,255,.018) 96px);
+    pointer-events:none;
+  }
+  .mh-inner {
+    max-width:900px; margin:0 auto;
+    padding:44px 44px 34px; position:relative;
+  }
+  .eyebrow {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.22em; color:var(--mint);
+    text-transform:uppercase; margin-bottom:10px;
+  }
+  .mh-inner h1 {
+    font-family:'Playfair Display',serif;
+    font-size:46px; font-weight:900;
+    color:var(--cream); line-height:1.04; letter-spacing:-.5px;
+  }
+  .mh-inner h1 em { color:var(--mint); font-style:normal; }
+  .mh-tagline {
+    margin-top:8px; color:rgba(245,240,232,.5);
+    font-size:13px; font-weight:300; letter-spacing:.04em;
+  }
+  .mh-pills {
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:22px; padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.1);
+  }
+  .pill {
+    background:rgba(122,184,149,.16);
+    border:1px solid rgba(122,184,149,.28);
+    border-radius:20px; padding:4px 14px;
+    font-family:'DM Mono',monospace; font-size:10px;
+    color:var(--leaf); letter-spacing:.1em; text-transform:uppercase;
+  }
+
+  /* ── BODY ── */
+  .body-wrap { max-width:900px; margin:0 auto; padding:0 44px 64px; }
+
+  /* ── VERIFIED BANNER ── */
+  .verified-banner {
+    background:#e8f4eb; border:1px solid #b5d9be;
+    border-radius:0 0 10px 10px;
+    padding:12px 20px; display:flex; align-items:center; gap:12px;
+    font-size:12px; color:#2a5a38; margin-bottom:36px;
+    font-family:'DM Mono',monospace; letter-spacing:.03em;
+  }
+  .verified-banner strong { font-weight:600; }
+
+  /* ── EXEC SUMMARY ── */
+  .exec {
+    background: var(--forest); border-radius:14px;
+    padding:32px 38px; margin-bottom:40px;
+    position:relative; overflow:hidden;
+  }
+  .exec::after {
+    content:'🌿'; position:absolute; right:30px; top:50%;
+    transform:translateY(-50%); font-size:80px; opacity:.05;
+    pointer-events:none;
+  }
+  .exec-lbl {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.25em; color:var(--mint);
+    text-transform:uppercase; margin-bottom:12px;
+  }
+  .exec h2 {
+    font-family:'Playfair Display',serif;
+    font-size:20px; color:var(--cream); margin-bottom:14px;
+  }
+  .exec p {
+    font-size:13.5px; line-height:1.8;
+    color:rgba(245,240,232,.78); max-width:720px;
+  }
+  .exec-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:10px; margin-top:20px;
+  }
+  .exec-item {
+    background:rgba(122,184,149,.13);
+    border-left:3px solid var(--mint);
+    border-radius:0 7px 7px 0;
+    padding:10px 14px; font-size:12.5px;
+    color:rgba(245,240,232,.82); line-height:1.55;
+  }
+  .exec-item strong {
+    display:block; font-size:10.5px;
+    color:var(--leaf); letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:4px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .sec-hdr {
+    display:flex; align-items:center; gap:14px;
+    margin:48px 0 22px; padding-bottom:13px;
+    border-bottom:2px solid var(--parchment);
+  }
+  .sec-flag { font-size:26px; line-height:1; }
+  .sec-hdr h2 {
+    font-family:'Playfair Display',serif;
+    font-size:24px; color:var(--forest);
+  }
+  .sec-region {
+    margin-left:auto;
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.15em; color:var(--stone);
+    text-transform:uppercase; background:var(--parchment);
+    padding:4px 11px; border-radius:12px;
+  }
+
+  /* ── STORY CARD ── */
+  .card {
+    background:#fff;
+    border:1px solid rgba(0,0,0,.06);
+    border-radius:13px; padding:26px 30px;
+    margin-bottom:16px; position:relative;
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow:0 5px 22px rgba(0,0,0,.09); }
+  .card-global::before { content:''; position:absolute; left:0; top:16px; bottom:16px; width:3px; background:var(--sage); border-radius:2px; }
+  .card-eu::before     { content:''; position:absolute; left:0; top:16px; bottom:16px; width:3px; background:var(--sky); border-radius:2px; }
+  .card-us::before     { content:''; position:absolute; left:0; top:16px; bottom:16px; width:3px; background:var(--rust); border-radius:2px; }
+
+  .card-top {
+    display:flex; align-items:flex-start; flex-wrap:wrap;
+    gap:8px; margin-bottom:14px;
+  }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; flex:1; }
+  .tag {
+    font-family:'DM Mono',monospace; font-size:9.5px;
+    letter-spacing:.12em; text-transform:uppercase;
+    padding:3px 10px; border-radius:20px;
+  }
+  .tag-bio       { background:#e8f0fa; color:#1a3a6a; border:1px solid #a8c4e8; }
+  .tag-carbon    { background:#e8f4eb; color:#2a6640; border:1px solid #b5d9be; }
+  .tag-waste     { background:#f0e8f8; color:#4a1a7a; border:1px solid #c8a8e8; }
+  .tag-chemicals { background:#fce8e8; color:#8a2020; border:1px solid #f0b0b0; }
+  .tag-energy    { background:#fef4e0; color:#7a4a0a; border:1px solid #f0d090; }
+  .tag-all       { background:#f0f0f0; color:#404040; border:1px solid #c8c8c8; }
+  .tag-food      { background:#fff0e0; color:#7a3a00; border:1px solid #f0c890; }
+  .tag-apparel   { background:#e8f4ff; color:#1a4a7a; border:1px solid #a0c8f0; }
+  .tag-elec      { background:#e0f8e8; color:#0a5020; border:1px solid #90d8a8; }
+  .tag-cpg       { background:#f8e8f0; color:#6a1a4a; border:1px solid #e0a8c8; }
+  .tag-water     { background:#e0f0ff; color:#0a3a6a; border:1px solid #90c0f0; }
+  .tag-animal    { background:#fff4e8; color:#7a4000; border:1px solid #f0c898; }
+
+  .urgency {
+    font-family:'DM Mono',monospace; font-size:9px;
+    text-transform:uppercase; letter-spacing:.1em;
+    padding:3px 11px; border-radius:20px;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .u-now   { background:#ffe8e4; color:#c43a2a; border:1px solid #f0a090; }
+  .u-watch { background:#fff8e0; color:#8a5a00; border:1px solid #f0d090; }
+  .u-trend { background:#e8f4eb; color:#2a6640; border:1px solid #b5d9be; }
+
+  .date-badge {
+    font-family:'DM Mono',monospace; font-size:9.5px;
+    color:var(--stone); letter-spacing:.05em;
+    background:var(--parchment); padding:2px 10px;
+    border-radius:10px; flex-shrink:0;
+  }
+
+  .card h3 {
+    font-family:'Playfair Display',serif;
+    font-size:18.5px; font-weight:700;
+    color:var(--ink); line-height:1.3; margin-bottom:12px;
+  }
+  .card p {
+    font-size:13.5px; line-height:1.78;
+    color:#3a3530; margin-bottom:10px;
+  }
+  .cpf-box {
+    background:#f3f8f4;
+    border-left:3px solid var(--sage);
+    border-radius:0 8px 8px 0;
+    padding:11px 16px; margin-top:14px;
+    font-size:13px; color:var(--forest); line-height:1.65;
+  }
+  .cpf-box strong { color:var(--sage); font-weight:600; }
+
+  .src-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .src {
+    display:inline-flex; align-items:center; gap:4px;
+    font-family:'DM Mono',monospace; font-size:10px;
+    color:var(--sky); text-decoration:none;
+    letter-spacing:.04em; opacity:.72;
+    background:rgba(42,92,138,.06);
+    border:1px solid rgba(42,92,138,.18);
+    padding:3px 10px; border-radius:12px;
+    transition:opacity .15s;
+  }
+  .src:hover { opacity:1; }
+  .src::before { content:'↗'; font-size:10px; }
+
+  /* ── RADAR SECTION ── */
+  .radar-hdr {
+    display:flex; align-items:center; gap:12px;
+    margin:48px 0 18px; padding-bottom:12px;
+    border-bottom:2px dashed var(--parchment);
+  }
+  .radar-hdr h2 {
+    font-family:'Playfair Display',serif;
+    font-size:20px; color:var(--stone); font-style:italic;
+  }
+  .radar-label {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.15em; color:#fff;
+    background:var(--stone); padding:4px 11px; border-radius:12px;
+    text-transform:uppercase;
+  }
+  .radar-card {
+    background:var(--parchment); border-radius:10px;
+    padding:18px 22px; margin-bottom:12px;
+    border-left:3px solid var(--stone);
+  }
+  .radar-top {
+    display:flex; flex-wrap:wrap; gap:8px;
+    align-items:center; margin-bottom:10px;
+  }
+  .radar-card h3 {
+    font-family:'Playfair Display',serif;
+    font-size:15px; font-weight:700;
+    color:#4a3a2a; margin-bottom:8px; line-height:1.3;
+  }
+  .radar-card p {
+    font-size:13px; color:#555; line-height:1.7; margin-bottom:8px;
+  }
+  .radar-card .cpf-box {
+    background:rgba(255,255,255,.7); font-size:12.5px;
+  }
+
+  /* ── FOOTER ── */
+  footer { background:var(--forest); margin-top:48px; padding:26px 44px; }
+  .ft-inner {
+    max-width:900px; margin:0 auto;
+    display:flex; justify-content:space-between;
+    align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  .ft-title {
+    font-family:'Playfair Display',serif;
+    font-size:16px; color:var(--cream); font-style:italic;
+  }
+  .ft-meta {
+    font-family:'DM Mono',monospace; font-size:10px;
+    color:rgba(245,240,232,.38); letter-spacing:.1em; text-transform:uppercase;
+  }
+
+  @media(max-width:600px){
+    .mh-inner,.body-wrap,footer { padding-left:20px; padding-right:20px; }
+    .mh-inner h1 { font-size:32px; }
+    .card { padding:18px 20px; }
+    .exec { padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ MASTHEAD ════ -->
+<header class="masthead">
+  <div class="mh-inner">
+    <p class="eyebrow">Climate Pledge Friendly · Sustainability Intelligence</p>
+    <h1>The <em>Green</em> Flash</h1>
+    <p class="mh-tagline">Weekly regulatory signals & certification trends for the CPF ecosystem</p>
+    <div class="mh-pills">
+      <span class="pill">Issue #002</span>
+      <span class="pill">Week of Mar 23 – 29, 2026</span>
+      <span class="pill">4 Verified Stories · 1 Radar</span>
+      <span class="pill">Chemicals · Apparel · Waste · Water · Reporting</span>
+    </div>
+  </div>
+</header>
+
+<div class="body-wrap">
+
+  <!-- ── ACCURACY BANNER ── -->
+  <div class="verified-banner">
+    <span>✓</span>
+    <span><strong>Source discipline:</strong> All main stories carry confirmed publication dates within Mar 23–29, 2026. The Radar section flags one early-stage development (EC Water Framework Directive consultation, opened Mar 17) not covered in Issue #1, included here due to its relevance to CPF's water attribute and an active April 14 consultation deadline.</span>
+  </div>
+
+  <!-- ── EXEC SUMMARY ── -->
+  <div class="exec">
+    <p class="exec-lbl">Executive Summary</p>
+    <h2>Four developments that matter to CPF this week</h2>
+    <p>A week dominated by consumer-facing and supply-chain-facing signals across chemicals, materials, and reporting standards. The EWG's 2026 Dirty Dozen — headlining PFAS pesticides on food for the first time — amplifies the value of organic and safer-chemical certifications in CPF's food, beauty, and health &amp; personal care categories. H&amp;M and Stella McCartney formalized an industry-first sustainability governance board with a CPF-relevant Spring 2026 collection anchored in certified and recycled materials — a notable signal of industry momentum around certified claims in fast fashion. Swedish startup Renasens closed Europe's largest hardware seed round of the year to commercialize waterless, CO₂-based fiber recycling from blended textiles, targeting the exact material stream that frustrates EU recycling mandates. And the ISSB published its final set of sector-specific SASB standard exposure drafts — covering agricultural products, meat &amp; dairy, and electric utilities — opening a public consultation with direct downstream relevance to CPF screening for food, beverage, and energy certifications.</p>
+    <div class="exec-grid">
+      <div class="exec-item"><strong>Chemicals · Food / Beauty / Health</strong>EWG Dirty Dozen 2026 (Mar 24): PFAS pesticides on 63% of conventional produce — organic certification value strengthened.</div>
+      <div class="exec-item"><strong>Solid Waste / Animal Welfare · Apparel</strong>H&amp;M + Stella McCartney Insights Board (Mar 24): Industry governance model for certified, recycled, and cruelty-free fashion at scale.</div>
+      <div class="exec-item"><strong>Solid Waste · Apparel / Textile-based</strong>Renasens €10M seed (Mar 25): Waterless CO₂ fiber recycling for blended textiles — supply-side infrastructure for EU EPR compliance.</div>
+      <div class="exec-item"><strong>Carbon / Water / Energy · Food / Power</strong>ISSB SASB exposure drafts (Mar 26): Updated reporting standards for agriculture, meat &amp; dairy, electric utilities — comment deadline July 24.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- REGION: UNITED STATES                            -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-hdr">
+    <span class="sec-flag">🇺🇸</span>
+    <h2>United States</h2>
+    <span class="sec-region">US</span>
+  </div>
+
+  <!-- STORY 1: EWG Dirty Dozen -->
+  <div class="card card-us">
+    <div class="card-top">
+      <div class="tags">
+        <span class="tag tag-chemicals">Pollution / Chemicals</span>
+        <span class="tag tag-food">Food &amp; Beverage</span>
+        <span class="tag tag-cpg">Beauty</span>
+        <span class="tag tag-cpg">Health &amp; Personal Care</span>
+      </div>
+      <span class="urgency u-now">🔴 High Relevance</span>
+      <span class="date-badge">Mar 24, 2026</span>
+    </div>
+    <h3>EWG 2026 Dirty Dozen: PFAS "Forever Chemicals" Found on 63% of Conventional Produce — First Time in Guide's History</h3>
+    <p>The Environmental Working Group released its 2026 Shopper's Guide to Pesticides in Produce on March 24, generating wide mainstream coverage across CNN, ABC, and CBS. <strong>For the first time in the guide's 22-year history, it spotlights PFAS pesticides</strong> — three of the ten most frequently detected pesticides across 54,344 USDA samples of 47 fruits and vegetables meet the internationally recognized PFAS definition. The most prevalent, <strong>fludioxonil</strong>, appeared in 14% of all produce samples and in nearly 90% of peaches and plums. Two other PFAS pesticides — fluopyram and bifenthrin — were also among the top 10 most detected chemicals overall. PFAS residues appeared on <strong>63% of all Dirty Dozen samples</strong>, with 96% of samples from those 12 produce types testing positive for some pesticide. Overall, 75% of conventionally grown produce across all 47 types carried residues.</p>
+    <p>This year's Dirty Dozen: spinach, strawberries, grapes, nectarines, peaches, cherries, apples, blackberries, pears, potatoes, blueberries, and kale/collard/mustard greens. Green beans and bell and hot peppers were flagged as honorable mentions for high overall toxicity. This year's Clean Fifteen leaders: pineapple, sweet corn, avocados, papaya, and onions — with nearly 60% of Clean Fifteen samples showing no detectable residues. EWG notes the methodology critiques from food safety scientists (many argue residue detection ≠ actionable risk at the detected levels), and frames the guide as an informed purchasing tool rather than a deterrent from produce consumption.</p>
+    <div class="cpf-box">
+      <strong>CPF Certification Signal:</strong> The PFAS pesticide highlight is a direct tailwind for CPF's Pollution/Chemicals attribute, specifically certifications that prohibit or restrict pesticide use in food production (e.g., USDA Organic, EU Organic, Rainforest Alliance, GLOBALG.A.P.). CPF requirement 3I.41 (requiring RSL compliance linked to authoritative toxicity lists for both environmental and human health endpoints) and 3I.12 (requiring pesticide restrictions or IPM) align well with the heightened PFAS scrutiny. For CPF screeners: organic food certifications whose standards explicitly prohibit synthetic pesticides — including PFAS-classified fungicides like fludioxonil — are now in a stronger consumer-value position. Worth verifying whether any CPF-eligible certifications in the food category permit the specific PFAS pesticides flagged (fludioxonil, fluopyram, bifenthrin), as this could be a gap.
+    </div>
+    <div class="src-row">
+      <a class="src" href="https://www.ewg.org/news-insights/news-release/2026/03/ewgs-2026-shoppers-guide-pesticides-producetm-finds-widespread" target="_blank">EWG Press Release (Mar 24)</a>
+      <a class="src" href="https://www.cnn.com/2026/03/24/health/2026-dirty-dozen-pesticide-produce-wellness" target="_blank">CNN (Mar 24)</a>
+      <a class="src" href="https://abc7.com/post/2026-dirty-dozen-produce-100-tested-positive-pesticides-including-forever-chemicals/18762912/" target="_blank">ABC7</a>
+      <a class="src" href="https://www.food-safety.com/articles/11266-ewg-publishes-2026-dirty-dozen-list-of-pesticide-contaminated-producebut-is-it-scientifically-sound" target="_blank">Food Safety Magazine (critical lens)</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- REGION: EUROPE                                   -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-hdr">
+    <span class="sec-flag">🇪🇺</span>
+    <h2>Europe</h2>
+    <span class="sec-region">EU / UK</span>
+  </div>
+
+  <!-- STORY 2: H&M + Stella McCartney Insights Board -->
+  <div class="card card-eu">
+    <div class="card-top">
+      <div class="tags">
+        <span class="tag tag-waste">Solid Waste / Circular</span>
+        <span class="tag tag-animal">Animal Welfare</span>
+        <span class="tag tag-apparel">Apparel / Shoes</span>
+        <span class="tag tag-apparel">Textile-based</span>
+      </div>
+      <span class="urgency u-trend">🟢 Industry Signal</span>
+      <span class="date-badge">Mar 24, 2026</span>
+    </div>
+    <h3>H&amp;M and Stella McCartney Launch Industry Insights Board — Spring Collection Anchored in Certified, Recycled Materials</h3>
+    <p>On March 24, H&amp;M Group and Stella McCartney officially launched the <strong>Insights Board</strong>, a multi-stakeholder governance forum bringing together voices across fashion, culture, technology, and sustainability advocacy. The board — which held its inaugural in-person meeting in London the same week — is designed as a structured, ongoing dialogue platform focusing on materials, circularity, innovation, animal welfare, and sustainability communication in fashion. Members include technologist and innovator Kiara Nirghin, model and activist Adwoa Aboah, fashion editor Susie Lau, artist Anitta, and model Amelia Gray, alongside McCartney and H&amp;M representatives. Sessions are moderated by industry strategist Julie Gilhart.</p>
+    <p>The launch coincides with H&amp;M and McCartney's <strong>Spring 2026 capsule collection</strong>, which uses certified and recycled materials throughout: Regenerative Organic Certified cotton, <strong>Responsible Wool Standard (RWS)-certified wool</strong>, bio-based faux leather, forest-friendly viscose (LENZING ECOVERO), recycled polyamide, and recycled brass. This marks the second H&amp;M designer collaboration with McCartney, 20 years after their first. The launch follows H&amp;M's recent commitment to source 100% of materials sustainably by 2030 — a target that will require stronger certification traceability across its supply chain. The initiative was also called the largest hardware seed round in Europe this year by some outlets in a different context — but the Insights Board's first session concluded that "fact-based communication, grounded in tangible commitments," is the industry's clearest differentiator for consumers.</p>
+    <div class="cpf-box">
+      <strong>CPF Certification Signal:</strong> The Spring 2026 collection directly deploys CPF-relevant certifications: RWS (eligible CPF certification in textile/apparel), LENZING ECOVERO (FSC-certified wood pulp viscose, CPF-relevant for textile-based), and Regenerative Organic Certified (ROC) cotton. This is a high-visibility, high-traffic consumer moment for CPF-adjacent certified claims. Screeners should track whether this drives volume into CPF-eligible certified apparel lines. More structurally: H&amp;M's 100% sustainable materials target by 2030 will require deeper engagement with CPF-caliber certifications across its supply chain. The Insights Board's focus on animal welfare aligns with CPF requirement 3I.37–3I.39, and its circularity focus is consistent with CPF's solid waste criteria. Watch for the board's outputs to signal where the industry is heading on these attributes.
+    </div>
+    <div class="src-row">
+      <a class="src" href="https://hmgroup.com/news/hm-stella-mccartney-insights-board-announces-board-members-and-kicks-off-its-work-at-its-first-meeting-in-london/" target="_blank">H&amp;M Group Official (Mar 24)</a>
+      <a class="src" href="https://wwd.com/sustainability/business/h-and-m-stella-mccartney-customer-love-sustainable-fashion-1238686437/" target="_blank">WWD Exclusive</a>
+      <a class="src" href="https://www.theindustry.fashion/hm-and-stella-mccartney-launch-insights-board-to-put-sustainability-front-and-centre/" target="_blank">The Industry Fashion (Mar 25)</a>
+      <a class="src" href="https://www.globaltextiletimes.com/news/hm-and-stella-mccartney-launch-fashion-sustainability-board/" target="_blank">Global Textile Times</a>
+    </div>
+  </div>
+
+  <!-- STORY 3: Renasens -->
+  <div class="card card-eu">
+    <div class="card-top">
+      <div class="tags">
+        <span class="tag tag-waste">Solid Waste / Recycled Content</span>
+        <span class="tag tag-apparel">Apparel / Shoes</span>
+        <span class="tag tag-apparel">Textile-based</span>
+      </div>
+      <span class="urgency u-trend">🟢 Emerging Tech Signal</span>
+      <span class="date-badge">Mar 25, 2026</span>
+    </div>
+    <h3>Renasens Closes €10M Seed — Waterless, CO₂-Based Fiber Recycling for Blended Textiles Heads to Industrial Scale</h3>
+    <p>Stockholm-based deep tech startup Renasens announced a <strong>€10 million (~$11.5M) seed round on March 25</strong>, described as Europe's largest hardware seed in 2026. The round was led by Extantia, with participation from Course Corrected VC and continued backing from Norrsken Launcher. Proceeds will fund a <strong>pilot plant in Borås, Sweden</strong>, targeting output of 200kg of recovered fibers per hour across modular units designed to integrate into existing industrial facilities in Portugal, Italy, Spain, and France.</p>
+    <p>Renasens has developed a proprietary, waterless recycling platform using <strong>modified supercritical CO₂</strong> — a state where CO₂ behaves as both a liquid and a gas — to separate and decolor blended textiles (e.g., polycotton) without water, toxic chemicals, or depolymerization. The process recovers intact cotton and polyester fibers with only 3–5% reduction in strength and a 98% fiber separation rate for polycotton blends — a technical barrier previously considered unsolvable at scale. Europe generates more than 12 million tonnes of textile waste annually; less than 1% is currently recycled into new fiber. Blended and treated fabrics, which dominate post-consumer waste, resist both conventional chemical and mechanical recycling. Renasens's modular, factory-compatible system is designed specifically for this gap. The company is already supplying recovered fibers to manufacturers and won the H&amp;M Foundation Global Change Award 2025.</p>
+    <div class="cpf-box">
+      <strong>CPF Certification Signal:</strong> This is a key supply-side development for CPF's recycled content threshold requirements. CPF's Appendix 2 requires minimum recycled content for textile-based and apparel products (50% for most material-claim certifications). The current barrier to higher recycled content in apparel is precisely the technical inability to recycle blended fabrics at scale — the problem Renasens is solving. As EU Extended Producer Responsibility (EPR) schemes for textiles take effect by June 2027 (with eco-modulated fees tied to recyclability), demand for Renasens-style solutions will accelerate. Certifications that verify recycled textile content (e.g., GRS, RCS by Textile Exchange) may see their supply base expand. CPF screeners should watch whether the industrial viability of blended-textile recycling creates pressure to raise the 50% threshold for apparel/textile certifications in the medium term.
+    </div>
+    <div class="src-row">
+      <a class="src" href="https://www.esgtoday.com/textile-recycling-tech-startup-renasens-raises-e10-million/" target="_blank">ESG Today (Mar 25)</a>
+      <a class="src" href="https://tech.eu/2026/03/25/deeptech-startup-renasens-lands-eur10m-to-scale-textile-recycling-in-europe/" target="_blank">Tech.eu (Mar 25)</a>
+      <a class="src" href="https://techfundingnews.com/renasens-secures-e10m-from-extantia-and-norrsken-launcher-for-textile-recycling-pilot-plant-in-europe/" target="_blank">Tech Funding News</a>
+      <a class="src" href="https://www.ecotextile.com/2026032562183/news/materials-production-news/renasens-closes-e10m-seed-to-scale-textile-recycling/" target="_blank">Ecotextile News</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- REGION: GLOBAL                                   -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-hdr">
+    <span class="sec-flag">🌍</span>
+    <h2>Global Standards &amp; Frameworks</h2>
+    <span class="sec-region">Global</span>
+  </div>
+
+  <!-- STORY 4: ISSB SASB Exposure Drafts -->
+  <div class="card card-global">
+    <div class="card-top">
+      <div class="tags">
+        <span class="tag tag-carbon">Carbon / Climate</span>
+        <span class="tag tag-water">Water Use</span>
+        <span class="tag tag-energy">Energy Use</span>
+        <span class="tag tag-food">Food &amp; Beverage</span>
+        <span class="tag tag-elec">Electronics &amp; Appliances</span>
+      </div>
+      <span class="urgency u-watch">🟡 Watch · Comment by Jul 24</span>
+      <span class="date-badge">Mar 26, 2026</span>
+    </div>
+    <h3>ISSB Publishes Final SASB Exposure Drafts: Agriculture, Meat &amp; Dairy, and Electric Utilities Standards Proposed for Update</h3>
+    <p>The IFRS Foundation's International Sustainability Standards Board published exposure drafts on March 26 proposing amendments to three SASB industry-specific sustainability disclosure standards: <strong>Agricultural Products, Meat/Poultry &amp; Dairy, and Electric Utilities &amp; Power Generators</strong>. These are the last three of 12 priority sectors in the ISSB's 2024–2026 SASB enhancement work plan — completing the full cycle of sector updates. The <strong>comment period runs until July 24, 2026</strong>.</p>
+    <p>Key proposed changes vary by sector. For <strong>Agricultural Products</strong>: expansion of scope to include direct farming operations, and new disclosure topics for Food Loss &amp; Food Waste and Land Use &amp; Ecological Impacts. For <strong>Meat, Poultry &amp; Dairy</strong>: new Product Innovation, Environmental Supply Chain Management, and Social Supply Chain Management disclosure topics (replacing the existing single "Animal Supply Chain" topic), plus revised metrics across the board. For <strong>Electric Utilities &amp; Power Generators</strong>: new topics including Ecological Impacts, Community Relations &amp; Rights of Indigenous Peoples, Employee Recruitment &amp; Retention, and Supply Chain Management. Across all three, the ISSB aims to better align language with IFRS S1/S2, improve international applicability, and enhance interoperability with GRI and TNFD. Finalization is expected in 2026.</p>
+    <div class="cpf-box">
+      <strong>CPF Certification Signal:</strong> The Agricultural Products and Meat/Poultry &amp; Dairy updates are directly relevant to CPF certifications in the food &amp; beverage category. The proposed expansion of agricultural scope and the new Food Loss &amp; Food Waste and Land Use topics map to CPF's soil health (3I.10–3I.13), biodiversity (3I.26–3I.31), and solid waste (3I.14–3I.19) attributes. The new Social Supply Chain Management topic in Meat/Poultry &amp; Dairy aligns with CPF's workers' health &amp; welfare requirements (3I.32–3I.35). The shift from a single animal supply chain topic to three dedicated sub-topics in Meat/Poultry &amp; Dairy signals a more granular reporting expectation that could eventually flow into certification standards. For the Electric Utilities update: the new ecological impacts and indigenous rights topics align with CPF's biodiversity (3I.49) and ecosystem/resource use requirements — worth tracking for future energy certification scope expansions.
+    </div>
+    <div class="src-row">
+      <a class="src" href="https://www.esgtoday.com/ifrs-foundation-proposes-updates-to-agriculture-power-sector-sustainability-reporting-standards/" target="_blank">ESG Today (Mar 26)</a>
+      <a class="src" href="https://www.ifrs.org/projects/work-plan/enhancing-sasb-standards-phase-1-cont/ed-cl-sasb-cont/" target="_blank">ISSB Consultation Page &amp; Exposure Drafts</a>
+      <a class="src" href="https://samcorporate.com/ifrs-esg-reporting-updates-agriculture-power-industries/" target="_blank">SAM Corporate Analysis</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- RADAR SECTION                                    -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="radar-hdr">
+    <span style="font-size:20px;">📡</span>
+    <h2>On the Radar</h2>
+    <span class="radar-label">Early-stage signals</span>
+  </div>
+  <p style="font-size:13px; color:var(--stone); margin-bottom:18px; font-style:italic;">Low near-term CPF impact, but worth tracking. These developments are too early-stage to warrant a full story card, but signal where regulatory or market conditions may be heading.</p>
+
+  <!-- RADAR: EC WFD Consultation -->
+  <div class="radar-card">
+    <div class="radar-top">
+      <div class="tags">
+        <span class="tag tag-water">Water Use</span>
+        <span class="tag tag-all">All (manufacturing sectors)</span>
+      </div>
+      <span class="urgency u-watch">🟡 Consultation closes ~Apr 14</span>
+      <span class="date-badge">Mar 17, 2026</span>
+    </div>
+    <h3>EC Opens 4-Week Public Consultation on Water Framework Directive Revision — Critical Minerals &amp; Circular Water Use in Scope</h3>
+    <p>The European Commission launched a call for evidence on March 17 to review the Water Framework Directive (WFD), the foundational EU law governing water quality and use since 2000. The stated goals are threefold: simplify water regulation; enhance water circularity; and unlock extraction of critical raw minerals from water streams (e.g., lithium, phosphorus recovery). The consultation runs approximately four weeks, closing around April 14, 2026. This is the first step in EU lawmaking — well before any formal legislative proposal — meaning meaningful regulatory change is realistically 3–5 years away.</p>
+    <div class="cpf-box">
+      <strong>CPF Certification Signal:</strong> Near-term impact is minimal. Directly affected sectors (semiconductors, mining, water treatment) are largely outside CPF's consumer goods scope. However, WFD underpins EU water quality standards that flow downstream into CPF-relevant certifications in cleaning products, beauty, food &amp; beverage, and textile manufacturing. Specifically, certifications with strong wastewater discharge requirements (CPF criterion 3I.42) rely on regulatory floors set by the WFD. If the revision loosens discharge standards in favor of mineral extraction efficiency, certifications in those categories could face a weakened regulatory baseline. Check in when a formal Commission proposal surfaces.
+    </div>
+    <div class="src-row">
+      <a class="src" href="https://environment.ec.europa.eu/news/commission-launches-call-evidence-water-legislation-2026-03-17_en" target="_blank">EC Call for Evidence (Mar 17)</a>
+    </div>
+  </div>
+
+</div><!-- /body-wrap -->
+
+<footer>
+  <div class="ft-inner">
+    <span class="ft-title">The Green Flash — Issue #002</span>
+    <span class="ft-meta">Amazon CPF · Sustainability Intelligence · Mar 23–29 2026 · Privileged &amp; Confidential</span>
+  </div>
+</footer>
+
+</body>
+</html>

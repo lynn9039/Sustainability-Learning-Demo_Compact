@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数字电池护照：推动可持续和循环电池管理 · WEF × Systemiq 2023</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sage-50:  #f3f6f2;
+    --sage-100: #e4ecdf;
+    --sage-200: #cddcc4;
+    --sage-300: #b1c6a4;
+    --sage-400: #8fae7f;
+    --sage-500: #6f9361;
+    --sage-600: #577a4b;
+    --sage-700: #44603b;
+    --sage-800: #344830;
+    --sage-900: #1f2c1d;
+    --ink: var(--sage-900);
+    --ink-soft: var(--sage-700);
+    --ink-muted: var(--sage-500);
+    --line: var(--sage-200);
+    --line-soft: var(--sage-100);
+    --surface: #ffffff;
+    --surface-sunken: var(--sage-50);
+    --s-1: 4px; --s-2: 8px; --s-3: 16px; --s-4: 24px; --s-5: 32px;
+    --s-6: 40px; --s-7: 48px; --s-8: 64px; --s-9: 80px; --s-10: 96px;
+    --radius-sm: 8px; --radius: 12px; --radius-lg: 16px;
+    --shadow-card:  0 1px 2px rgba(38,53,42,.04), 0 8px 24px rgba(38,53,42,.04);
+    --font-sans: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px; line-height: 1.75;
+    color: var(--ink); background: var(--surface-sunken);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--sage-700); text-decoration: none; border-bottom: 1px solid var(--sage-200); }
+  a:hover { color: var(--sage-800); border-bottom-color: var(--sage-400); }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  p { margin: 0; }
+  .page { max-width: 960px; margin: 0 auto; padding: var(--s-7) var(--s-4) var(--s-9); }
+  .content { max-width: 760px; margin: 0 auto; }
+
+  .hero { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: var(--s-6); margin-bottom: var(--s-6); }
+  .hero-type { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage-700); background: var(--sage-100); padding: var(--s-1) var(--s-2); border-radius: 999px; margin-bottom: var(--s-3); }
+  .hero h1 { font-size: 30px; line-height: 1.3; margin-bottom: var(--s-3); }
+  .hero-subtitle { font-size: 17px; color: var(--ink-soft); line-height: 1.65; margin-bottom: var(--s-4); max-width: 660px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; font-size: 14px; color: var(--ink-muted); }
+  .source-chip { display: inline-flex; align-items: center; gap: var(--s-2); padding: var(--s-1) var(--s-3); background: var(--surface-sunken); border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: 13px; }
+  .source-chip:hover { background: var(--sage-100); color: var(--sage-800); }
+  .source-chip svg { width: 14px; height: 14px; }
+
+  .tablist { display: flex; gap: var(--s-4); border-bottom: 1px solid var(--line); margin-bottom: var(--s-5); padding: 0 var(--s-2); flex-wrap: wrap; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--ink-muted); font: inherit; font-weight: 500; font-size: 15px; padding: var(--s-3) var(--s-2); margin-bottom: -1px; cursor: pointer; transition: color 150ms ease, border-color 150ms ease; display: inline-flex; align-items: center; gap: var(--s-2); }
+  .tab[aria-selected="true"] { color: var(--sage-800); border-bottom-color: var(--sage-600); font-weight: 600; }
+  .tab:hover { color: var(--sage-700); }
+  .tab:focus-visible { outline: 2px solid var(--sage-400); outline-offset: 4px; border-radius: 4px; }
+  .tab-index { font-size: 12px; color: var(--sage-500); font-variant-numeric: tabular-nums; }
+
+  .panel { display: none; }
+  .panel[data-active="true"] { display: block; animation: fade 180ms ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: var(--s-5); margin-bottom: var(--s-4); }
+  .card h2 { font-size: 18px; margin-bottom: var(--s-3); color: var(--sage-800); scroll-margin-top: 24px; }
+  .card h3 { font-size: 16px; margin: var(--s-4) 0 var(--s-2); color: var(--sage-800); scroll-margin-top: 24px; }
+  .card h4 { font-size: 14px; margin: var(--s-3) 0 var(--s-1); color: var(--sage-700); letter-spacing: 0.04em; }
+  .card p + p { margin-top: var(--s-3); }
+  .card ul, .card ol { margin: var(--s-2) 0; padding-left: var(--s-4); }
+  .card li { margin-bottom: var(--s-2); }
+  .card li::marker { color: var(--sage-400); }
+  .card.tab-intro { padding: var(--s-4) var(--s-5); }
+  .card.tab-intro .time-card { background: transparent; border: 0; padding: 0; }
+
+  .gauges { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+  @media (max-width: 560px) { .gauges { grid-template-columns: 1fr; } }
+  .gauge { background: var(--surface-sunken); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: var(--s-4); }
+  .gauge-label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--sage-600); margin-bottom: var(--s-2); }
+  .gauge-level { font-size: 18px; font-weight: 600; color: var(--sage-800); margin-bottom: var(--s-1); }
+  .gauge-area { font-size: 13px; color: var(--ink-muted); margin-bottom: var(--s-2); }
+  .dots { display: inline-flex; gap: var(--s-1); margin-bottom: var(--s-2); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sage-100); border: 1px solid var(--sage-200); }
+  .dot.on { background: var(--sage-500); border-color: var(--sage-600); }
+  .gauge-note { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+
+  .time-card { display: flex; align-items: center; gap: var(--s-3); background: var(--surface-sunken); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: var(--s-4); }
+  .time-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--sage-100); color: var(--sage-700); display: grid; place-items: center; flex-shrink: 0; }
+  .time-icon svg { width: 20px; height: 20px; }
+  .time-value { font-size: 18px; font-weight: 600; color: var(--sage-800); }
+  .time-sub { font-size: 13px; color: var(--ink-muted); }
+
+  .key-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--s-3); margin-top: var(--s-3); }
+  .fact { background: var(--surface-sunken); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: var(--s-3); }
+  .fact-value { font-size: 22px; font-weight: 700; color: var(--sage-800); line-height: 1.25; }
+  .fact-label { font-size: 12px; color: var(--ink-muted); margin-top: var(--s-1); line-height: 1.55; }
+
+  figure.diagram { margin: var(--s-4) 0; padding: var(--s-4); background: var(--surface-sunken); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); text-align: center; }
+  figure.diagram svg { max-width: 640px; width: 100%; height: auto; }
+  figure.diagram figcaption { margin-top: var(--s-2); font-size: 13px; color: var(--ink-muted); }
+
+  .callout { border-left: 3px solid var(--sage-500); background: var(--surface-sunken); padding: var(--s-3) var(--s-4); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: var(--s-3) 0; font-size: 15px; color: var(--ink-soft); }
+  .callout strong { color: var(--sage-800); }
+
+  table.compare { width: 100%; border-collapse: collapse; margin: var(--s-3) 0; font-size: 14px; }
+  table.compare th, table.compare td { text-align: left; padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  table.compare th { background: var(--surface-sunken); color: var(--sage-800); font-weight: 600; }
+  table.compare tbody tr:hover { background: var(--surface-sunken); }
+  table.compare td:first-child { color: var(--sage-700); font-weight: 500; }
+
+  .toc { position: fixed; top: 50%; transform: translateY(-50%); left: max(var(--s-3), calc((100vw - 760px) / 2 - 210px)); width: 180px; max-height: 72vh; overflow-y: auto; padding: var(--s-2) 0 var(--s-2) var(--s-3); opacity: 0; pointer-events: none; transition: opacity 250ms ease; z-index: 20; }
+  .toc[data-visible="true"] { opacity: 1; pointer-events: auto; }
+  .toc-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--sage-600); padding-left: var(--s-4); margin-bottom: var(--s-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; position: relative; }
+  .toc ol::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 1px; background: var(--sage-200); }
+  .toc li { position: relative; margin: 0; }
+  .toc li::before { content: ""; position: absolute; left: -4.5px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; background: var(--surface); border: 1.5px solid var(--sage-300); border-radius: 50%; transition: all 180ms ease; z-index: 1; }
+  .toc li[data-active="true"]::before { background: var(--sage-600); border-color: var(--sage-700); box-shadow: 0 0 0 3px var(--sage-100); }
+  .toc li[data-level="3"]::before { width: 6px; height: 6px; left: -3px; border-width: 1px; }
+  .toc a { display: block; padding: var(--s-2) 0 var(--s-2) var(--s-4); color: var(--ink-muted); border-bottom: 0; font-size: 13px; line-height: 1.5; transition: color 180ms ease; }
+  .toc li[data-level="3"] a { padding-left: calc(var(--s-4) + var(--s-3)); font-size: 12.5px; color: var(--sage-500); }
+  .toc a:hover { color: var(--sage-700); }
+  .toc li[data-active="true"] > a { color: var(--sage-800); font-weight: 600; }
+  @media (max-width: 1100px) { .toc { display: none; } }
+
+  .footer { margin-top: var(--s-7); padding-top: var(--s-4); border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--s-2); }
+  .footer a { border-bottom: none; }
+
+  @media print {
+    body { background: white; }
+    .tablist, .toc { display: none; }
+    .panel { display: block !important; page-break-after: always; }
+    .card { box-shadow: none; border-color: #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="本页目录">
+  <div class="toc-title">本页目录</div>
+  <ol></ol>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="hero-type">研究简报 · PDF · 5 页中文版</span>
+    <h1>数字电池护照：推动可持续和循环电池管理</h1>
+    <p class="hero-subtitle">世界经济论坛与 Systemiq 联合发布的政策简报，聚焦欧盟电池法规下数字电池护照的内容框架、责任架构，以及中国、欧盟、美国协调统一的全球路径。</p>
+    <div class="hero-meta">
+      <span>世界经济论坛 × Systemiq · 2023 年 6 月 · 循环汽车倡议政策工作组</span>
+      <a class="source-chip" href="https://www3.weforum.org/docs/WEF_Digital_Battery_Passport_2023_CN.pdf" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path>
+        </svg>
+        weforum.org
+      </a>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="tablist" role="tablist" aria-label="学习页面章节">
+      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" data-panel="panel-1">
+        <span class="tab-index">01</span>摘要
+      </button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" data-panel="panel-2">
+        <span class="tab-index">02</span>解读
+      </button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" data-panel="panel-3">
+        <span class="tab-index">03</span>洞察
+      </button>
+    </div>
+
+
+    <!-- ============ PANEL 1 — 摘要 ============ -->
+    <section class="panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1" data-active="true">
+      <div class="card">
+        <h2>阅读难度</h2>
+        <div class="gauges">
+          <div class="gauge">
+            <div class="gauge-label">文字阅读</div>
+            <div class="gauge-level">中等</div>
+            <div class="dots" aria-label="3 / 5">
+              <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <p class="gauge-note">行业简报结构清晰，段落短、信息密度高；中文版有少量欧盟法规条款翻译（第 65 条、附件 XIII 等），对非合规背景读者需要多停顿理解。</p>
+          </div>
+          <div class="gauge">
+            <div class="gauge-label">专业知识</div>
+            <div class="gauge-level">较难</div>
+            <p class="gauge-area">领域：电池价值链治理 &amp; 数字产品护照 (DPP)</p>
+            <div class="dots" aria-label="4 / 5">
+              <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+            </div>
+            <p class="gauge-note">涉及电池全价值链（采矿—精炼—正极—电芯—Pack—回收）、欧盟电池法规及配套授权法案、经济经营者概念等，建议读者具备 EV 或可持续供应链基础。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>预计阅读时间</h2>
+        <div class="time-card">
+          <div class="time-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          </div>
+          <div>
+            <div class="time-value">12–15 分钟</div>
+            <div class="time-sub">WEF × Systemiq 中文版简报 · 共 5 页</div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top: var(--s-3);">
+          <strong>想深入了解？</strong>这份 5 页简报是面向政策制定者的执行摘要，技术细节分散在以下配套资源中：
+          <ul style="margin-top: var(--s-2); margin-bottom: 0;">
+            <li><a href="https://thebatterypass.eu/resources/" target="_blank" rel="noopener noreferrer">Battery Pass Consortium · Content Guidance</a>——欧盟电池护照 80+ 强制字段的完整技术指南（英文，约 200 页）</li>
+            <li><a href="https://www.globalbattery.org/battery-passport/" target="_blank" rel="noopener noreferrer">GBA Battery Passport · GHG Rulebook &amp; Battery Benchmarks</a>——GBA 的碳足迹核算方法论与试点结果</li>
+            <li><a href="https://eur-lex.europa.eu/eli/reg/2023/1542/oj" target="_blank" rel="noopener noreferrer">欧盟电池法规 (EU) 2023/1542 全文</a>——第 65 条与附件 XIII 的原始条款</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>内容摘要</h2>
+        <p>这份由<strong>世界经济论坛与 Systemiq 联合发布</strong>的 2023 年 6 月政策简报，聚焦<em>数字电池护照</em>作为可持续循环电池管理核心工具的法规与治理路径。简报由循环汽车倡议政策工作组与 Systemiq 合作，气候工作基金会资助，中国汽车技术研究中心 (CATARC) 与电池护照联盟提供支持。</p>
+        <p>简报的主线是<strong>欧盟正在推动数字产品护照 (DPP) 作为提高产品可持续性与循环性的核心工具</strong>。关键政策载体有两个：(1) 2022 年 3 月启动的欧盟可持续产品倡议（SPI）框架下的《可持续产品生态设计法规（ESPR）》，将数字产品护照作为覆盖欧盟销售各类产品的通用工具；(2) 2023 年欧盟电池法规，这是<strong>第一部涵盖整个产品生命周期的法规</strong>，取代电池指令 2006/66/EC，首次将数字电池护照引入为<em>欧洲首个数字产品护照</em>。该法规 2022 年 12 月议会与理事会达成临时协议，2023 年 6 月获欧洲议会批准，法规生效 42 个月后强制要求数字电池护照。</p>
+        <p>适用范围明确：所有轻型交通工具电池、2 千瓦时以上的工业电池、以及投放市场或投入使用的电动汽车电池。数据内容按欧盟电池法规第 65 条与附件 XIII 归为 <strong>7 大类强制披露</strong>——电池与制造商的常规信息、合规标签与认证、电池碳足迹、供应链尽职调查（唯一强制的供应链尽调要求）、电池材料与成分、循环与资源效率、性能与耐用性。责任从"经济经营者"起点，大多情形下欧盟内投放者为制造商、欧盟外投放者为进口商；两种情境下责任可转移——电池进入再利用/重新调整/再制造时转给新经营者，电池"报废"时转给生产商或生产商责任组织。</p>
+        <p>简报还记录了<strong>欧盟以外的动向</strong>：中国 2018 年通过<em>新能源汽车动力蓄电池回收利用管理暂行办法</em>并推出动力电池生命周期溯源管理体系（当时尚不含碳足迹数据），目前正着手开发中国数字电池护照以比照国际标准并促进与欧盟贸易；美国依托《通胀削减法案》推进供应链本地化并可能对可追溯性做出强制要求；国际行业倡议有三条主线——全球电池联盟 (GBA) 2023 年完成概念论证（含 GHG Rulebook 碳报告、童工与人权信息）、由德国联邦经济事务和气候行动部资助的<em>电池护照联盟 (Battery Pass Consortium)</em> 开发内容与技术标准、以及<em>Catena-X</em> 在汽车行业制定标准化数据治理原则。简报最后提出<strong>协调统一全球透明度要求</strong>的四条政策建议：全球推行、报告参数与技术框架标准化、与现有系统（如 IMDS / SCIP 数据库）整合、推进并支持行业行动。</p>
+      </div>
+
+      <div class="card">
+        <h2>关键数字与时间节点</h2>
+        <div class="key-facts">
+          <div class="fact"><div class="fact-value">2022.12</div><div class="fact-label">欧洲议会和理事会达成临时协议</div></div>
+          <div class="fact"><div class="fact-value">2023.06</div><div class="fact-label">获欧洲议会批准 · 简报发布</div></div>
+          <div class="fact"><div class="fact-value">42 个月</div><div class="fact-label">法规生效后强制数字护照的过渡期</div></div>
+          <div class="fact"><div class="fact-value">&gt; 2 kWh</div><div class="fact-label">工业电池纳入强制护照的容量门槛</div></div>
+          <div class="fact"><div class="fact-value">7 大类</div><div class="fact-label">欧盟第 65 条 + 附件 XIII 强制披露内容</div></div>
+          <div class="fact"><div class="fact-value">2018</div><div class="fact-label">中国动力电池溯源管理体系起点</div></div>
+          <div class="fact"><div class="fact-value">3 条主线</div><div class="fact-label">GBA / 电池护照联盟 / Catena-X</div></div>
+          <div class="fact"><div class="fact-value">2066/66/EC</div><div class="fact-label">被取代的欧盟旧电池指令</div></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============ PANEL 2 — 解读 ============ -->
+    <section class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" data-active="false">
+
+      <div class="card tab-intro">
+        <div class="time-card">
+          <div class="time-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          </div>
+          <div>
+            <div class="time-value">12 分钟阅读</div>
+            <div class="time-sub">预计阅读时间 · 本分析</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>为什么重要</h2>
+        <p>这份简报看似只是一份 5 页的政策梗概，但它位于一个<strong>全球合规范式转换的关键时间窗</strong>。2023 年 6 月欧盟电池法规刚获议会批准，42 个月过渡期的倒计时开始；同时中国、美国、以及 Catena-X 为代表的产业联盟正在决定是"对齐欧盟"还是"另建标准"。简报的真正价值不在于新信息，而在于<em>一张覆盖三大经济体的政策地图</em>——它让读者同时看到哪些已经立法、哪些在起草、哪些在试点，以此判断自身的产业站位。</p>
+        <p>对 sustainability 从业者而言，数字电池护照是<strong>首个被顶层立法强制落地的"数字产品护照 (DPP)"实例</strong>。欧盟把电池选作 DPP 的先锋赛道，意味着纺织、电子、化工等品类在 2026–2030 间会相继跟进——电池领域走过的实施路径、解决的数据互操作难题、形成的审计基础设施，都会成为后续行业的模板。</p>
+        <div class="callout">
+          <strong>核心转变。</strong>产品合规正从<em>"证书驱动"</em>（碳足迹证书、ESG 评级、供应链声明）走向<em>"结构化数据驱动"</em>——每颗电池都是一个数字孪生，附带 QR 码可追溯到矿山、工厂、使用履历与报废去向。这不只是电池行业的变化，而是整个<em>循环经济从口号到可执行基础设施</em>的落地开端。
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>电池护照的数据内容：欧盟第 65 条 + 附件 XIII 的 7 大类</h2>
+        <p>简报基于电池护照联盟的工作，将欧盟电池法规强制披露的内容归纳为 7 类。每一类背后都对应一个具体治理目标。</p>
+
+        <figure class="diagram">
+          <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="欧盟电池护照 7 类强制披露：电池常规信息、合规标签认证、碳足迹、供应链尽职调查、电池材料成分、循环与资源效率、性能与耐用性">
+            <text x="320" y="22" text-anchor="middle" font-family="Noto Sans SC" font-size="13" font-weight="600" fill="#344830">欧盟电池护照 · 7 类强制披露内容</text>
+
+            <rect x="40" y="40" width="560" height="38" rx="4" fill="#e4ecdf" stroke="#6f9361" stroke-width="1"/>
+            <text x="60" y="64" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#1f2c1d">① 电池与制造商常规信息</text>
+            <text x="290" y="64" font-family="Noto Sans SC" font-size="11" fill="#577a4b">· 标识 · 制造商 · 制造地点 · 日期 · 类别 · 重量 · 状态</text>
+
+            <rect x="40" y="84" width="560" height="38" rx="4" fill="#cddcc4" stroke="#577a4b" stroke-width="1"/>
+            <text x="60" y="108" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#1f2c1d">② 合规、标签、认证</text>
+            <text x="260" y="108" font-family="Noto Sans SC" font-size="11" fill="#344830">· 集合符号 · 镉铅符号 · 碳足迹标签 · 欧盟一致性声明 · 检测报告</text>
+
+            <rect x="40" y="128" width="560" height="38" rx="4" fill="#b1c6a4" stroke="#44603b" stroke-width="1"/>
+            <text x="60" y="152" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#1f2c1d">③ 电池碳足迹</text>
+            <text x="220" y="152" font-family="Noto Sans SC" font-size="11" fill="#1f2c1d">· 申报碳足迹 · 生命周期阶段份额 · 性能等级 · 工厂地理位置</text>
+
+            <rect x="40" y="172" width="560" height="38" rx="4" fill="#8fae7f" stroke="#44603b" stroke-width="1"/>
+            <text x="60" y="196" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#1f2c1d">④ 供应链尽职调查</text>
+            <text x="250" y="196" font-family="Noto Sans SC" font-size="11" fill="#1f2c1d">· 唯一强制的供应链尽调要求 · 负责任采购政策报告</text>
+
+            <rect x="40" y="216" width="560" height="38" rx="4" fill="#6f9361" stroke="#44603b" stroke-width="1"/>
+            <text x="60" y="240" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#f3f6f2">⑤ 电池材料与成分</text>
+            <text x="250" y="240" font-family="Noto Sans SC" font-size="11" fill="#f3f6f2">· 化学体系 · 关键原材料 · 正负极 / 电解质 · 有害物质</text>
+
+            <rect x="40" y="260" width="560" height="38" rx="4" fill="#577a4b" stroke="#44603b" stroke-width="1"/>
+            <text x="60" y="284" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#f3f6f2">⑥ 循环和资源效率</text>
+            <text x="260" y="284" font-family="Noto Sans SC" font-size="11" fill="#f3f6f2">· 拆卸拆解信息 · 钴/锂/镍/铅回收成分 · 报废废物预防</text>
+
+            <rect x="40" y="304" width="560" height="28" rx="4" fill="#44603b" stroke="#344830" stroke-width="1"/>
+            <text x="60" y="322" font-family="Noto Sans SC" font-size="12" font-weight="600" fill="#f3f6f2">⑦ 性能和耐用性</text>
+            <text x="260" y="322" font-family="Noto Sans SC" font-size="11" fill="#f3f6f2">· 容量 · 能量往返效率 · 周期 / 日历寿命</text>
+          </svg>
+          <figcaption>欧盟电池法规第 65 条 + 附件 XIII 明确的 7 类强制数据。其中供应链尽职调查是唯一对供应链强制的要求，其余类别是产品本体的属性与履历。</figcaption>
+        </figure>
+
+        <p>值得注意的是，简报里 <strong>供应链尽职调查报告是数字电池护照中唯一强制性的供应链尽调要求</strong>——这意味着其余类别（矿山溯源、精炼记录等）并非直接强制，而是通过审计与报告间接关联。这一设计在政治上是合规与商业机密的妥协，但也让"护照是否足够透明"在科学上留有争议。</p>
+      </div>
+
+      <div class="card">
+        <h2>价值链参与者的利益图景（简报图 1）</h2>
+        <p>简报的图 1 给出了一个少见的"所有参与者各得其所"的图景——护照对每类角色都有明确收益点，而不只是对合规部门或监管机构。</p>
+
+        <table class="compare">
+          <thead>
+            <tr><th>参与者</th><th>护照带来的具体价值</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>矿厂 / 精炼厂</td><td>ESG 要素的可靠验证，带来"绿色溢价"（即负责任采购材料在采购议价中获得的加价空间）</td></tr>
+            <tr><td>前驱体与正极活性材料生产商</td><td>利用供应链可溯源数据改进采购决策；ESG 认证材料溢价</td></tr>
+            <tr><td>电池与模块生产商</td><td>改进采购决策、ESG 认证电池溢价；基于"现场数据"改进设计方案和生产模式</td></tr>
+            <tr><td>汽车制造商</td><td>数据驱动的循环商业模式；利用供应链可溯源的数据改进采购决策</td></tr>
+            <tr><td>用户 (终端消费者)</td><td>信息透明化，给予消费足够的信息做出购买决策；通过 SoH（电池健康状况）数据进行可靠的残值评估</td></tr>
+            <tr><td>二手用户 (车辆交易商 / 二手车商)</td><td>通过 SoH 数据降低处理成本、提供可靠的残值评估；优化二手电池分配</td></tr>
+            <tr><td>收集商</td><td>保障运输和储存；降低处理成本</td></tr>
+            <tr><td>回收商</td><td>通过提高拆卸和回收的效率，降低交易成本；通过改进过程控制提高回收料产量</td></tr>
+          </tbody>
+        </table>
+
+        <p>这张图是整份简报的<strong>经济逻辑支点</strong>——它在告诉政策制定者："护照不只是增加合规成本，它创造了一张所有环节都能分到价值的数字基础设施"。这是为什么中国和美国愿意跟进、而不仅仅在欧盟压力下被动合规的根本原因。</p>
+      </div>
+
+      <div class="card">
+        <h2>责任架构：经济经营者 + 两种责任转移情境</h2>
+        <p>简报对法律责任做了清晰的梳理，这是实际落地时最关键的部分——"谁出错谁负责"。</p>
+
+        <h3>起点：经济经营者</h3>
+        <p>责任的起点是<strong>"经济经营者"</strong> (economic operator) 概念（第 2 条第 1 款第 19 项）。基于数字护照的具体情况，通过"将电池投放市场"或"将电池投入使用"初步划分经营者范围（第 65(1) 条）。</p>
+        <ul>
+          <li><strong>大多数情况下</strong>：如果电池从欧盟内部投放市场，经营者是<em>制造商</em>；如果电池从欧盟以外投放市场，经营者是<em>进口商</em>。</li>
+          <li><strong>例外</strong>：经销商等其他行为者有时也可被视为经营者。</li>
+          <li><strong>未明确</strong>：研究中用于保护和测试的原型电池是否受约束、是否需要护照，目前尚不清楚。</li>
+        </ul>
+
+        <h3>经营者的三项具体责任</h3>
+        <ol>
+          <li>赋予唯一的标识码，该标识码与标记电池的 QR 码相关联，以便访问数字电池护照（第 65(3)、13(5) 和 (6) 条）。</li>
+          <li>确保数字电池护照中的信息准确、完整和更新（第 65(4) 条）。</li>
+          <li>存储数字电池护照中包含的数据（第 65a 条）。</li>
+        </ol>
+        <p>对于第二和第三项责任，明确允许将电池投放市场的经营者<strong>授权另一经营者"代其行事"</strong>（第 65(4) 条和第 65a(c) 条）——这给了第三方数据服务商（如 Catena-X 平台方）清晰的商业空间。</p>
+
+        <h3>责任转移的两种情境</h3>
+        <p>第 65(6a) 条定义了两种情境下责任可在经营者间转移：</p>
+        <ul>
+          <li><strong>再利用情境</strong>：如果电池已进行再利用准备、准备重新调整用途、重新规划用途或再制造，责任转移给新经营者。</li>
+          <li><strong>报废情境</strong>：如果电池状态更改为"报废"，责任将转移给生产商或生产商责任组织 (PRO)。</li>
+        </ul>
+        <p>这一设计的意义在于——它把一颗电池的<em>完整生命周期</em>切成可问责的几段，每段都有明确的"值守者"。这也是护照与传统一次性合规文件的根本区别。</p>
+      </div>
+
+      <div class="card">
+        <h2>欧盟以外：中国、美国、国际行业三轨并行</h2>
+
+        <h3>中国</h3>
+        <p>2018 年通过<strong>《新能源汽车动力蓄电池回收利用管理暂行办法》</strong>，强制要求电池制造商、汽车整车厂和回收商提供各阶段信息，以确定回收有效性。同年推出<strong>动力电池生命周期溯源管理体系</strong>，收集维护、报废、回收和再利用信息——但<em>碳足迹数据尚未包含在内</em>。随着欧盟电池立法通过，中国政府开始开发中国数字电池护照，比照国际标准，针对碳足迹、循环性和 ESG 等方面，对中国电动汽车电池价值链提出数据透明度要求，以此促进与欧盟的贸易。</p>
+        <p>这段值得细品——中国的路径是"原有 2018 溯源体系 + 新增碳足迹/ESG 层"，以贸易促进为明确动机。<strong>这既是防御性合规（跟上欧盟 42 个月倒计时），也是主动建立本土数据治理主权</strong>。</p>
+
+        <h3>美国</h3>
+        <p>简报只用了一段描述：美国最近的举措，如发布《美国通货膨胀削减法案》促进了供应链本地化，并强调电池材料和零部件数据来源数据的重要性；美国监管机构为了促进该法案的实施，可能会对产品通行证或可追溯性系统做出某种形式的强制要求。</p>
+        <p>相较欧盟与中国，美国路径更间接——IRA 45W 电动车税收抵免背后的"FEOC"（Foreign Entities of Concern）和"Critical Mineral"占比要求，事实上构成了对电池溯源的压力，但没有像欧盟 DPP 那样明确的护照立法。这给了头部车企提前以可自由选择的平台/标准做布局的窗口。</p>
+
+        <h3>国际行业行动：三条主线</h3>
+        <ul>
+          <li><strong>全球电池联盟 (GBA)</strong>——旨在通过多利益相关方推动电池护照概念在全球普及。2023 年 GBA 进行了概念论证，内容包括技术参数、基于 GBA 规则手册的温室气体报告，以及基于专项指数的童工和人权信息。</li>
+          <li><strong>电池护照联盟 (Battery Pass Consortium)</strong>——由德国联邦经济事务和气候行动部资助，开发数字电池护照的内容和技术标准，并在试点项目中演示。简报图 1、图 2 均来自该联盟 2023 年工作。</li>
+          <li><strong>Catena-X</strong>——另一项行业倡议，旨在将全球汽车行业参与者联系起来，制定标准化的全球通用数据治理原则。</li>
+        </ul>
+        <p>这三条主线职能不同：GBA 偏<em>全球普及与国际协调</em>，电池护照联盟偏<em>内容与技术标准</em>，Catena-X 偏<em>汽车行业数据治理</em>。它们之间既有分工又有竞争——最终的实际基础设施大概率由三者互操作拼接而成。</p>
+      </div>
+
+      <div class="card">
+        <h2>四条政策建议：协调统一全球透明度</h2>
+        <p>简报以明确的政策建议收尾——给中国、欧盟、美国的政策制定者。</p>
+        <ol>
+          <li><strong>全球推行数字电池护照</strong>：中国和欧盟正在推行，美国等其他国家也应效仿，以提高全球电动汽车电池价值链的透明度。</li>
+          <li><strong>报告参数和技术框架标准化</strong>：虽然各国都在推行，但方案可能相去甚远，最终阻碍全球贸易。应以现有全球倡议（如欧盟电池护照标准）为基础，协调统一内容和技术要求，确保一致性、准确性以及价值链中所有利益相关方对数据的可访问性。</li>
+          <li><strong>与现有系统和计划整合</strong>：将数字电池护照与现有合规要求（可持续性报告框架、产品标签方案、尽职调查义务）结合；与现有报告系统整合，如汽车行业的 <em>IMDS（国际材料数据系统）</em> 或 <em>SCIP 数据库</em>。这是极具可操作性的建议，避免重复造轮子。</li>
+          <li><strong>推进和支持行业行动</strong>：支持和推进行业内的实际协调和实施行动，例如由电池护照联盟或全球电池联盟牵头的行动。可支持的措施包括：提供研发资助、支持知识共享和能力发展倡议、提供有针对性的技能开发和培训。</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>简报的留白：它没有回答的几个关键问题</h2>
+        <p>这份 5 页简报的强项是<strong>政策地图</strong>，但有意识地没有处理几个实操难点——这些是读者需要补充阅读深度资料的原因。</p>
+        <ul>
+          <li><strong>碳足迹核算方法没有技术细节</strong>。简报提到"碳足迹标签""生命周期阶段碳足迹份额"，但没有涉及核算边界、双电力建模、数据质量等级等——这些在 GBA GHG Rulebook V2.1 与欧盟电池法规授权法案中。</li>
+          <li><strong>实际数据流与基础设施不明</strong>。QR 码、唯一标识码、访问权限级别这些概念点到为止，但如何互操作、使用什么协议（GS1 / Catena-X / 区块链 / 传统 API）、谁托管数据、如何防篡改都未展开。</li>
+          <li><strong>合规成本估算缺失</strong>。对中小企业到底会产生多少合规成本、是否有针对小型工业电池的豁免（简报只强调 &gt;2 kWh 工业电池纳入），这些落地关键点留给后续指南。</li>
+          <li><strong>"原型电池"问题悬而未决</strong>。研究与测试用电池是否纳入护照管辖，这直接影响电池研发行业。</li>
+          <li><strong>数据跨境合规</strong>。欧盟 GDPR 与中国《数据安全法》《个人信息保护法》对矿山坐标、工厂能耗等是否属于"重要数据"未有定论——这在本简报里没有提及，但是实际实施时的关键摩擦点。</li>
+        </ul>
+      </div>
+
+    </section>
+
+
+    <!-- ============ PANEL 3 — 洞察 ============ -->
+    <section class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" data-active="false">
+
+      <div class="card tab-intro">
+        <div class="time-card">
+          <div class="time-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          </div>
+          <div>
+            <div class="time-value">14 分钟阅读</div>
+            <div class="time-sub">预计阅读时间 · 本分析</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>可持续性从业者现在该做什么</h2>
+        <p>如果你在中国电池企业、整车厂、上游材料、回收、或为这些行业提供 ESG / 碳咨询服务，"42 个月过渡期"从 2023 年 6 月起算，<strong>合规行动的实质窗口就是 2024–2026 这三年</strong>。简报有意用一张政策地图让你看清自己所处的位置，但要真正准备好需要做以下事情。</p>
+
+        <h3>未来 90 天：先看清自己的起点</h3>
+        <ul>
+          <li><strong>做一次"护照 7 类字段就绪度评估"</strong>：针对简报归纳的 7 大类（常规信息 / 合规标签 / 碳足迹 / 供应链尽调 / 材料成分 / 循环效率 / 性能耐用性），盘点企业现有 ERP、MES、LIMS、BMS、供应商门户有哪些数据、来源质量如何。重点识别"现在完全没有数据的字段"与"有数据但无法追溯真实性的字段"。</li>
+          <li><strong>确定企业的"经济经营者"身份</strong>：你是投放欧盟市场的制造商、进口商、经销商？还是潜在的被授权"代其行事"的第三方服务商？不同身份对应不同的合规责任深度。</li>
+          <li><strong>启动跨部门工作组</strong>：可持续性、采购、IT、法务、产品（电池研发）、销售（尤其欧洲区），没有这个跨部门共识，护照无法落地。</li>
+        </ul>
+
+        <h3>未来 12 个月：能力建设</h3>
+        <ul>
+          <li><strong>把"数据披露条款"写入新签合同</strong>。2025 年之后签的矿石、前驱体、电芯、电解液、隔膜合同都应包含上游数据披露义务、审计访问权、数据格式要求与违约赔偿——现存合同的数据倒逼将会越来越难。</li>
+          <li><strong>选定一到两家关键供应商试点数据对接</strong>。优先选择已在 Catena-X、GBA 试点或欧盟电池护照联盟网络内的供应商，用一次真实的"上游→下游"数据流跑通合同、IT、法务三方接口。</li>
+          <li><strong>决定平台路线</strong>：是接入既有行业平台（Catena-X、GBA 护照基础设施）还是自建并对接？头部企业通常混合使用。</li>
+          <li><strong>参加行业共识建设</strong>：GBA、电池护照联盟的会员通道、CATARC 在国内的配套项目，都是提前获取规则解释权的入口。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>战略影响：从合规到竞争优势</h2>
+
+        <h3>产品战略</h3>
+        <p>简报的图 1 已经揭示——<strong>每类参与者都能因护照获得具体商业回报</strong>，护照不是纯成本项。所以产品战略的关键问题不是"要不要做护照"，而是"在护照体系里占据什么角色"。ESG 评分优秀的电池将获得"绿色溢价"；SoH 数据准确的电池在二手市场获得更高残值；拆解信息完整的电池在回收端获得更高处理效率。<em>哪怕在仅强制"供应链尽调报告"的欧盟最小集合要求下</em>，主动做全量披露的企业已经在重新定义"什么叫可持续电池"。</p>
+
+        <h3>采购战略</h3>
+        <p>对于买方（整车厂、储能集成商），简报的政策地图意味着未来 2–3 年内<strong>供应商评估要增加一个新维度——"护照就绪度"</strong>。建议分层：A 级（现已能提供 7 类数据）、B 级（18 个月内能到 A 级）、C 级（需协助培育）、D 级（将淘汰）。不能披露的上游即使报价低 5–10%，合规风险与审计成本会让总拥有成本倒挂。</p>
+
+        <h3>资本配置</h3>
+        <p>42 个月过渡期足够长、也足够短——长到可以上新产线做数据化改造，短到来不及从零搭建完整基础设施。<strong>建议在 2024–2025 财年就把数据采集硬件（矿山/工厂 IoT、BMS 数据流）、数据中间件（IMDS/SCIP 接入层）、身份标识系统（GS1 电池 ID 方案）列入 Capex 优先级</strong>。这些投入 5 年内摊销后会成为合规之外的"软资产"——数据质量直接影响绿色融资成本、ESG 评级、碳资产价值。</p>
+
+        <h3>品牌战略</h3>
+        <p>中国企业过去十年在海外讲"可持续"往往停留在口号层面，护照时代将转向<em>可核验的量化证据</em>。一颗电池的 7 类护照数据本身就是最有力的品牌叙事。<strong>谁能第一批让海外客户扫 QR 码看到完整、真实、美观的数据呈现，谁就拿下了品牌先机</strong>。</p>
+      </div>
+
+      <div class="card">
+        <h2>数据需求：需要什么 · 从哪来</h2>
+        <p>简报没有给具体数据源清单（这不是它的职责），但基于 7 类强制披露，从业者需要建立以下数据能力。</p>
+        <table class="compare">
+          <thead>
+            <tr><th>7 类中的字段</th><th>颗粒度要求</th><th>主要来源</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>常规信息（标识、制造地点、日期）</td>
+              <td>电池唯一 ID + 制造履历</td>
+              <td>ERP / MES / 工厂 traceability 系统；建议采用 GS1 EPCIS 事件标准</td>
+            </tr>
+            <tr>
+              <td>合规、标签、认证</td>
+              <td>证书 + 版本 + 有效期</td>
+              <td>第三方检测机构（SGS、TÜV、BV、DNV、中国质量认证中心 CQC）、欧盟 DoC</td>
+            </tr>
+            <tr>
+              <td>碳足迹（生命周期阶段份额）</td>
+              <td>kgCO₂e/kWh，按阶段拆分</td>
+              <td>GBA GHG Rulebook、ISO 14067、LCA 软件（GaBi、Simapro、One Click LCA）+ ecoinvent 数据库</td>
+            </tr>
+            <tr>
+              <td>供应链尽职调查（唯一强制）</td>
+              <td>负责任采购政策 + 实施证据</td>
+              <td>OECD 尽调清单、IRMA / RMI / ASI / Copper Mark 审计、第三方在地核验</td>
+            </tr>
+            <tr>
+              <td>电池材料与成分</td>
+              <td>化学体系 / 关键原材料 / 有害物质</td>
+              <td>现有 IMDS 数据库（汽车行业）、SCIP 数据库（欧盟 REACH）、供应商 SDS</td>
+            </tr>
+            <tr>
+              <td>循环和资源效率</td>
+              <td>拆解信息 + 钴/锂/镍/铅回收成分</td>
+              <td>回收商数据（格林美、邦普、华友循环）、产品设计阶段自身拆解手册</td>
+            </tr>
+            <tr>
+              <td>性能与耐用性</td>
+              <td>容量、循环次数、能量往返效率、SoH</td>
+              <td>BMS 数据流 + 第三方测试报告（GB/T 31484 等）+ 车联网采集</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>简报特别推荐的两个<strong>现有系统整合点</strong>：汽车行业的 <strong>IMDS</strong>（国际材料数据系统）、欧盟 REACH 的 <strong>SCIP 数据库</strong>。绝大多数头部车企与一级供应商已经在这些系统中运转多年，护照不需要从零开始——整合已有数据基础设施会大幅降低合规成本。这是简报第 3 条政策建议的具体落地路径。</p>
+      </div>
+
+      <div class="card">
+        <h2>方法论演化：护照会如何重塑可持续性计算</h2>
+        <p>简报没展开，但从 7 类内容的结构可以预见几个方法论方向的重要变化。</p>
+        <ul>
+          <li><strong>产品碳足迹 (PCF) 从"平均值"走向"电池级真实值"</strong>。过去 EV 电池的 PCF 常以 Pack 全厂平均值申报；护照要求"每个生命周期阶段的电池碳足迹份额"，意味着<em>到电芯级、到工序段</em>的核算成为下限。LCA 软件的系统边界规则、分配系数（质量 vs 经济）需要统一校准。</li>
+          <li><strong>整车企业的 Scope 3 Category 1 有初级数据可用</strong>。过去 OEM 的 Scope 3 Cat.1 依赖"行业均值 × 采购金额"，不确定度常达 ±30%。护照数据流入后，真实电池碳足迹 × 采购数量将让这块不确定度显著收窄——这是 SBTi 与 ISSB 长期推动的方向。</li>
+          <li><strong>循环经济指标首次可量化</strong>。护照要求的"钴、锂、镍、铅回收成分""可再生成分信息"首次给了 Circularity Indicator (MCI)、闭环程度 (closed-loop fraction) 这些概念以可落地的量化基础。</li>
+          <li><strong>尽调审计方法论升级</strong>。简报强调"供应链尽职调查报告是唯一强制的供应链尽调要求"——这意味着审计行业将迅速发展电池版本的尽调方法论，与 OECD 多矿产清单、ISO 37301 合规管理体系深度接轨。</li>
+          <li><strong>数据质量等级 (DQR) 进入主流</strong>。护照数据并非"有就行"，而是需要明确每一项的数据质量等级。欧盟授权法案大概率引入与汽车行业 PACT / TfS 协议一致的 DQR 定义。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>行业轨迹（2–5 年）</h2>
+        <ul>
+          <li><strong>中国数字电池护照将在 2025–2026 定型</strong>。基于 2018 年溯源管理体系扩展碳足迹 + ESG 层；可能通过 CATARC 与 GBA、电池护照联盟建立互认通道，以减少中国企业的重复合规负担。</li>
+          <li><strong>Catena-X 将从欧洲扩展到中国与北美</strong>。作为汽车行业事实上的数据治理基础设施，Catena-X 会在 2025 年后出现中国节点（大概率由国内头部车企合资建设），这是中欧数据互操作的核心桥梁。</li>
+          <li><strong>"护照联邦"跨品类扩展</strong>。电池是欧盟 DPP 体系的先锋，纺织、电子、化工、建材将在 2026–2030 相继纳入。提前在电池行业积累的数据基础设施、审计方法论、身份标识方案会沿用到后续品类。</li>
+          <li><strong>IMDS / SCIP 从"合规数据库"升级为"护照前置基础设施"</strong>。既有系统不会被废弃，而是作为护照的数据源被纳入。这对已有合规能力的企业是利好。</li>
+          <li><strong>再利用与再制造领域迎来投资窗口</strong>。责任转移的"再利用情境"赋予新经营者合法身份，再生电池的 QR 码可承载新一段护照——这打开了梯次利用、电池再制造企业的商业合法性与融资通道。</li>
+          <li><strong>美国路径分化</strong>。IRA 的 FEOC 与关键矿产要求事实上推动了可追溯，但不会完全对齐欧盟 DPP 格式。企业需要同时对接欧盟、中国、美国三套数据要求，合规工具市场会因此爆发。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>可持续性科学视角：护照为循环经济从口号到可执行打开大门</h2>
+        <p>这份简报的真正科学意义，在于它让循环经济从"概念目标"走向"可计算工程"。</p>
+        <p>第一，<strong>循环经济从定性指标走向定量会计</strong>。长期以来"闭环程度""循环材料比例"是定性描述，护照将它们变成电池级的数字字段——这让艾伦·麦克阿瑟基金会的 Circularity Indicator 可以用真实数据实例化，也让循环经济从市场营销术语回归到工程与会计学科。</p>
+        <p>第二，<strong>LCA 方法论的"数据民主化"</strong>。过去 LCA 高度依赖 ecoinvent、ELCD 等二手数据库，不同研究可比性有限。护照的初级数据共享会让下一代 LCA 研究跳出数据库不确定性的限制——但也意味着旧研究结论需要在新数据下重新复核。</p>
+        <p>第三，<strong>责任转移机制把"电池一生"变成一段可问责的连续记录</strong>。这在科学上类似医学的"病历完整性"——每一步处置都有值守者、时间戳、原始数据。电池作为能源转型关键资产，这种"生命周期病历"的存在让政策、科研、金融都获得一个共同的事实基础。</p>
+        <p>第四，<strong>科学与政策的双向反馈加速</strong>。护照数据的规模化积累会让学术研究第一次拥有跨企业、跨国境的真实电池样本库。基于这些数据的研究（如回收经济性阈值、真实车队 SoH 衰减曲线、关键矿产供应风险）会反馈到政策迭代——欧盟授权法案每 3–5 年修订一次的节奏正是为此准备。</p>
+        <p>第五，<strong>与气候目标的量化连接</strong>。电池是巴黎协定下交通与能源系统脱碳的关键资产。护照让<em>每颗电池的真实碳足迹、真实循环率、真实二次生命周期</em>可知——这使得"电动化减碳效益"从整体模型假设变为可加总的实际数据，对气候目标实现的可验证性至关重要。</p>
+      </div>
+
+      <div class="card">
+        <h2>待解之问</h2>
+        <ul>
+          <li>42 个月过渡期结束时，如果中国本土数字电池护照尚未与欧盟充分互认，中国企业对欧动力电池出口会否短期受冲击？冲击的关键变量是什么——是数据格式、认证机构、还是特定字段的口径差异？</li>
+          <li>简报只将供应链尽职调查报告列为"唯一强制的供应链尽调要求"，这在实施中是否会被理解为其他类别可以用较低数据质量填写？若是，如何防止护照变成"最低合规"的形式化文件？</li>
+          <li>欧盟授权法案对"原型电池是否受约束"的澄清会在何时、以何种方式给出？这会直接影响中国和欧洲电池研发企业的实验性业务模式。</li>
+          <li>护照的"责任转移"机制在跨境情境下如何适用？一颗中国制造、在欧盟再利用、最后在东南亚回收的电池，三个责任段分别在哪个法域审计？</li>
+          <li>与 CBAM、欧盟 CSDDD、美国 IRA、中国双碳目标的耦合方式会如何演进？四套合规体系是否会在 2028 年前后走向"数据一次采集、多处使用"的统一？还是会固化为互不兼容的区域壁垒？</li>
+        </ul>
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <span>生成于 · 2026-05-06</span>
+      <a href="https://www3.weforum.org/docs/WEF_Digital_Battery_Passport_2023_CN.pdf" target="_blank" rel="noopener noreferrer">原始简报 PDF ↗</a>
+    </footer>
+  </div>
+</main>
+
+<script>
+  (function () {
+    const tabs = document.querySelectorAll('[role="tab"]');
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    function activate(tab) {
+      tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+      const target = tab.dataset.panel;
+      panels.forEach(p => p.setAttribute('data-active', p.id === target ? 'true' : 'false'));
+      window.scrollTo({ top: 0 });
+    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('keydown', (e) => {
+        const list = Array.from(tabs);
+        const i = list.indexOf(e.currentTarget);
+        if (e.key === 'ArrowRight') { e.preventDefault(); const n = list[(i + 1) % list.length]; n.focus(); activate(n); }
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); const n = list[(i - 1 + list.length) % list.length]; n.focus(); activate(n); }
+        if (e.key === 'Home')       { e.preventDefault(); list[0].focus(); activate(list[0]); }
+        if (e.key === 'End')        { e.preventDefault(); list.at(-1).focus(); activate(list.at(-1)); }
+      });
+    });
+  })();
+
+  (function () {
+    const tocEl = document.querySelector('.toc');
+    const tocList = tocEl && tocEl.querySelector('ol');
+    if (!tocEl || !tocList) return;
+    function slug(s, prefix, i) {
+      return `${prefix}-s${i}-` + s.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    }
+    let tocItems = [];
+    let pinnedId = null;
+    let pinnedUntil = 0;
+    const PIN_DURATION = 800;
+    let pinBreakAttached = false;
+    function buildTocFor(panelId) {
+      tocList.innerHTML = '';
+      tocItems = [];
+      if (panelId === 'panel-1') { tocEl.setAttribute('data-visible', 'false'); return; }
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      const cards = panel.querySelectorAll('.card');
+      let i = 0;
+      cards.forEach(card => {
+        if (card.classList.contains('tab-intro')) return;
+        const headings = card.querySelectorAll('h2, h3');
+        headings.forEach(h => {
+          i += 1;
+          if (!h.id) h.id = slug(h.textContent, panelId, i);
+          const level = h.tagName === 'H3' ? 3 : 2;
+          const li = document.createElement('li');
+          li.dataset.level = String(level);
+          li.dataset.target = h.id;
+          const a = document.createElement('a');
+          a.href = '#' + h.id;
+          a.textContent = h.textContent.trim();
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById(h.id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            pinnedId = h.id;
+            pinnedUntil = Date.now() + PIN_DURATION;
+            setActive(pinnedId);
+            attachPinBreakers();
+          });
+          li.appendChild(a);
+          tocList.appendChild(li);
+          tocItems.push({ id: h.id, li, level, heading: h });
+        });
+      });
+      maybeShowToc();
+      if (!isPinned()) updateActive();
+    }
+    let currentActiveId = null;
+    function setActive(id) {
+      tocItems.forEach(it => {
+        it.li.setAttribute('data-active', it.id === id ? 'true' : 'false');
+      });
+      if (id !== currentActiveId) {
+        currentActiveId = id;
+        const it = tocItems.find(x => x.id === id);
+        if (it) ensureTocItemVisible(it.li);
+      }
+    }
+    function ensureTocItemVisible(li) {
+      const container = tocEl;
+      if (!container || container.scrollHeight <= container.clientHeight + 1) return;
+      const liRect = li.getBoundingClientRect();
+      const cRect = container.getBoundingClientRect();
+      const liTop = liRect.top - cRect.top + container.scrollTop;
+      const liBottom = liTop + liRect.height;
+      const margin = 32;
+      const viewTop = container.scrollTop;
+      const viewBottom = viewTop + container.clientHeight;
+      let targetTop = null;
+      if (liTop < viewTop + margin) {
+        targetTop = Math.max(0, liTop - margin);
+      } else if (liBottom > viewBottom - margin) {
+        targetTop = liBottom - container.clientHeight + margin;
+      }
+      if (targetTop !== null) {
+        container.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
+    }
+    function isPinned() { return pinnedId && Date.now() < pinnedUntil; }
+    function attachPinBreakers() {
+      if (pinBreakAttached) return;
+      pinBreakAttached = true;
+      const release = () => {
+        pinnedId = null;
+        pinnedUntil = 0;
+        pinBreakAttached = false;
+        window.removeEventListener('wheel', release);
+        window.removeEventListener('touchmove', release);
+        window.removeEventListener('keydown', keyRelease);
+      };
+      const keyRelease = (e) => {
+        if (['ArrowUp','ArrowDown','PageUp','PageDown',' ','Home','End'].includes(e.key)) release();
+      };
+      window.addEventListener('wheel', release, { passive: true, once: true });
+      window.addEventListener('touchmove', release, { passive: true, once: true });
+      window.addEventListener('keydown', keyRelease);
+      setTimeout(() => { if (pinBreakAttached) release(); }, PIN_DURATION + 200);
+    }
+    function maybeShowToc() {
+      const active = document.querySelector('.panel[data-active="true"]');
+      if (!active || active.id === 'panel-1' || tocItems.length === 0) {
+        tocEl.setAttribute('data-visible', 'false');
+        return;
+      }
+      const show = window.scrollY > 30;
+      tocEl.setAttribute('data-visible', show ? 'true' : 'false');
+    }
+    function updateActive() {
+      if (tocItems.length === 0) return;
+      const vh = window.innerHeight;
+      const docH = document.documentElement.scrollHeight;
+      const scrollY = window.scrollY;
+      const maxScroll = Math.max(1, docH - vh);
+      const progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+      const TOP_LINE = 140;
+      const BOTTOM_LINE = vh - 100;
+      const activationLine = TOP_LINE + (BOTTOM_LINE - TOP_LINE) * progress;
+      let currentId = tocItems[0].id;
+      for (const it of tocItems) {
+        const y = it.heading.getBoundingClientRect().top;
+        if (y <= activationLine) currentId = it.id;
+      }
+      if (docH - (scrollY + vh) < 20) {
+        currentId = tocItems[tocItems.length - 1].id;
+      }
+      setActive(currentId);
+    }
+    function onScroll() {
+      maybeShowToc();
+      if (!isPinned()) updateActive();
+    }
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    const panelObs = new MutationObserver(() => {
+      const active = document.querySelector('.panel[data-active="true"]');
+      if (active) buildTocFor(active.id);
+    });
+    panels.forEach(p => panelObs.observe(p, { attributes: true, attributeFilter: ['data-active'] }));
+    const initial = document.querySelector('.panel[data-active="true"]');
+    if (initial) buildTocFor(initial.id);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+</script>
+</body>
+</html>
