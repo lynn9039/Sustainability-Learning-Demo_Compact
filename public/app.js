@@ -20,8 +20,8 @@ const previewEl = document.getElementById("preview");
 const downloadBtn = document.getElementById("download-btn");
 
 const urlLink = document.getElementById("url-link");
-const urlYoutube = document.getElementById("url-youtube");
 const textContent = document.getElementById("text-content");
+const textCount = document.getElementById("text-count");
 const fileUpload = document.getElementById("file-upload");
 const focusCategories = document.getElementById("focus-categories");
 const focusDimensions = document.getElementById("focus-dimensions");
@@ -51,6 +51,11 @@ const ERROR_COPY = {
     title: "Text too short",
     fallback: "The text is too short to analyze. Please paste more content and try again.",
   },
+  CONTENT_TOO_LONG: {
+    title: "Content too long",
+    fallback:
+      "The public compact demo works best with focused excerpts under about 2,200 characters.",
+  },
   FILE_TOO_LARGE: {
     title: "File too large",
     fallback: "Maximum upload size is 4.5 MB.",
@@ -68,8 +73,8 @@ const ERROR_COPY = {
     fallback: "Copy the post and paste it under “Paste text”.",
   },
   NO_TRANSCRIPT: {
-    title: "No YouTube captions",
-    fallback: "Pick another video or paste a transcript.",
+    title: "YouTube disabled",
+    fallback: "Please paste a short transcript excerpt instead.",
   },
   FILE_PARSE_FAILED: {
     title: "Could not read file",
@@ -83,6 +88,11 @@ const ERROR_COPY = {
   GENERATION_FAILED: {
     title: "Generation failed",
     fallback: "The AI did not return a valid page. Please try again.",
+  },
+  GENERATION_TIMEOUT: {
+    title: "Generation took too long",
+    fallback:
+      "Claude needed too much time for this content. Try a shorter, more focused excerpt.",
   },
 };
 
@@ -122,6 +132,13 @@ tabs.forEach((tab) => {
     if (type) activateInputTab(type);
   });
 });
+
+function updateTextCount() {
+  if (!textCount || !textContent) return;
+  textCount.textContent = String(textContent.value.length);
+}
+
+textContent.addEventListener("input", updateTextCount);
 
 /**
  * @returns {{ categories?: string[]; impactDimensions?: string[] } | null}
@@ -200,9 +217,6 @@ function validateClient() {
     case "text":
       if (!textContent.value.trim()) return "VALIDATION_ERROR";
       break;
-    case "youtube":
-      if (!urlYoutube.value.trim()) return "VALIDATION_ERROR";
-      break;
     case "file":
       if (!fileUpload.files?.length) return "VALIDATION_ERROR";
       break;
@@ -222,8 +236,6 @@ function buildFormData() {
 
   if (activeInputType === "link") {
     fd.append("url", urlLink.value.trim());
-  } else if (activeInputType === "youtube") {
-    fd.append("url", urlYoutube.value.trim());
   } else if (activeInputType === "text") {
     fd.append("text", textContent.value);
   } else if (activeInputType === "file" && fileUpload.files?.[0]) {
@@ -318,3 +330,4 @@ form.addEventListener("submit", async (event) => {
 });
 
 activateInputTab("link");
+updateTextCount();

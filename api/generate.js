@@ -1,17 +1,20 @@
 import {
   CONFIDENTIAL_CHECK_CHARS,
   CONFIDENTIAL_MARKERS,
+  COMPACT_MAX_CONTENT_CHARS,
   DEMO_MAX_CONTENT_CHARS,
   ERROR,
   ERROR_HINTS,
+  GENERATION_MODE,
   MIN_CONTENT_CHARS,
 } from "../lib/constants.js";
 import { extractByInputType } from "../lib/extract/index.js";
 import { detectLanguage } from "../lib/language.js";
-import { generateLearningPage } from "../lib/llm.js";
+import { generateLearningPage, generateLearningPageParts } from "../lib/llm.js";
 import { buildPayload } from "../lib/metadata.js";
 import { parseMultipartRequest } from "../lib/multipart.js";
 import { consumeRateLimitAttempt, getClientIp } from "../lib/rate-limit.js";
+import { renderLearningPage } from "../lib/render-template.js";
 import { sendError, sendGenerationResult } from "../lib/response.js";
 import { verifyTurnstile } from "../lib/turnstile.js";
 
@@ -35,6 +38,8 @@ const EXTRACT_HINTS = {
     "File is too large (max 4.5 MB on this plan). Try a smaller file or paste the text.",
   [ERROR.UNSUPPORTED_FILE_TYPE]:
     "Unsupported file type. Use PDF, DOCX, PPTX, TXT, or MD.",
+  [ERROR.CONTENT_TOO_LONG]: ERROR_HINTS[ERROR.CONTENT_TOO_LONG],
+  [ERROR.GENERATION_TIMEOUT]: ERROR_HINTS[ERROR.GENERATION_TIMEOUT],
 };
 
 /**
@@ -83,6 +88,14 @@ export default async function handler(req, res) {
     const form = await parseMultipartRequest(req);
     const clientIp = getClientIp(req);
 
+    if (GENERATION_MODE === "compact" && form.inputType === "youtube") {
+      sendError(res, ERROR.UNSUPPORTED_FILE_TYPE, {
+        hint:
+          "YouTube links are disabled in the public compact demo. Please paste a short transcript excerpt instead.",
+      });
+      return;
+    }
+
     const turnstile = await verifyTurnstile(form.turnstileToken, clientIp);
     if (!turnstile.ok) {
       sendError(res, ERROR.TURNSTILE_FAILED, {
@@ -114,6 +127,16 @@ export default async function handler(req, res) {
       return;
     }
 
+    if (
+      GENERATION_MODE === "compact" &&
+      extracted.content.length > COMPACT_MAX_CONTENT_CHARS
+    ) {
+      sendError(res, ERROR.CONTENT_TOO_LONG, {
+        hint: ERROR_HINTS[ERROR.CONTENT_TOO_LONG],
+      });
+      return;
+    }
+
     const rate = await consumeRateLimitAttempt(clientIp);
     if (!rate.allowed) {
       sendError(res, ERROR.RATE_LIMIT, {
@@ -123,9 +146,13 @@ export default async function handler(req, res) {
     }
 
     const language = detectLanguage(extracted.content);
+    const maxContentChars =
+      GENERATION_MODE === "compact"
+        ? COMPACT_MAX_CONTENT_CHARS
+        : DEMO_MAX_CONTENT_CHARS;
     const contentForClaude =
-      extracted.content.length > DEMO_MAX_CONTENT_CHARS
-        ? `${extracted.content.slice(0, DEMO_MAX_CONTENT_CHARS)}\n\n[Source truncated for demo runtime.]`
+      extracted.content.length > maxContentChars
+        ? `${extracted.content.slice(0, maxContentChars)}\n\n[Source truncated for demo runtime.]`
         : extracted.content;
     const payload = buildPayload({
       inputType: form.inputType,
@@ -147,17 +174,27 @@ export default async function handler(req, res) {
       `[generate] calling Claude model for ${form.inputType}, chars=${contentForClaude.length}`,
     );
     const claudeStartedAt = Date.now();
-    const llmResult = await generateLearningPage(payload);
+    const llmResult =
+      GENERATION_MODE === "compact"
+        ? await generateLearningPageParts(payload)
+        : await generateLearningPage(payload);
     const claudeElapsedMs = Date.now() - claudeStartedAt;
     if (!llmResult.ok) {
       console.warn(
         `[generate] Claude failed after ${claudeElapsedMs}ms: ${llmResult.reason}`,
       );
-      sendError(res, ERROR.GENERATION_FAILED, { hint: llmResult.reason });
+      const code = llmResult.code || ERROR.GENERATION_FAILED;
+      sendError(res, code, {
+        hint: ERROR_HINTS[code] || llmResult.reason,
+      });
       return;
     }
 
-    console.info(`[generate] Claude returned HTML candidate after ${claudeElapsedMs}ms`);
+    console.info(`[generate] Claude returned candidate after ${claudeElapsedMs}ms`);
+    if (GENERATION_MODE === "compact") {
+      sendGenerationResult(res, renderLearningPage(payload, llmResult.parts));
+      return;
+    }
     sendGenerationResult(res, llmResult.text);
   } catch (err) {
     if (hasErrorCode(err)) {

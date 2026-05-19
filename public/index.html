@@ -22,18 +22,19 @@
       <span class="hero-eyebrow">Vercel demo</span>
       <h1>Sustainability Learning Page</h1>
       <p class="hero-lead">
-        Paste a link, text, document, or YouTube URL — we turn it into a self-contained HTML learning page
+        Paste a link, text, or document — we turn it into a compact self-contained HTML learning page
         with Summary, Interpretation, and Insights tabs through a sustainability lens.
       </p>
       <p class="hero-note">
-        Each visitor can generate up to <strong>3 learning pages per day</strong> (per IP).
+        Public deployments allow up to <strong>3 learning pages per day</strong> (per IP).
+        Public demo mode works best with focused excerpts under about 2,200 characters.
         Large PDFs must stay under 4.5&nbsp;MB.
       </p>
     </header>
 
     <div class="loading" id="loading" data-visible="false" aria-live="polite">
       <span class="spinner" aria-hidden="true"></span>
-      <span>Generating your learning page — this can take 1–3 minutes while Claude writes the full HTML…</span>
+      <span>Generating your compact learning page — this should usually finish within the Vercel Hobby runtime…</span>
     </div>
 
     <div class="skeleton" id="skeleton" data-visible="false" aria-hidden="true">
@@ -51,7 +52,6 @@
           <button type="button" class="tab" role="tab" id="tab-link" aria-selected="true" aria-controls="panel-link" data-input-type="link">Link</button>
           <button type="button" class="tab" role="tab" id="tab-text" aria-selected="false" aria-controls="panel-text" data-input-type="text">Paste text</button>
           <button type="button" class="tab" role="tab" id="tab-file" aria-selected="false" aria-controls="panel-file" data-input-type="file">Upload file</button>
-          <button type="button" class="tab" role="tab" id="tab-youtube" aria-selected="false" aria-controls="panel-youtube" data-input-type="youtube">YouTube</button>
         </div>
 
         <input type="hidden" name="inputType" id="input-type" value="link" />
@@ -67,7 +67,8 @@
         <div class="panel" id="panel-text" role="tabpanel" aria-labelledby="tab-text" data-active="false">
           <div class="field">
             <label for="text-content">Source text</label>
-            <textarea id="text-content" name="text" placeholder="Paste the full article, post, or transcript here…"></textarea>
+            <textarea id="text-content" name="text" maxlength="2200" placeholder="Paste a focused excerpt here (recommended: 500–2,200 characters)…"></textarea>
+            <p class="field-hint"><span id="text-count">0</span>/2,200 characters. Short, focused excerpts are more likely to return within the public demo runtime.</p>
           </div>
         </div>
 
@@ -81,14 +82,6 @@
               accept=".pdf,.docx,.pptx,.txt,.md,.markdown,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/markdown"
             />
             <p class="field-hint">PDF, DOCX, PPTX, TXT, or MD — max 4.5&nbsp;MB.</p>
-          </div>
-        </div>
-
-        <div class="panel" id="panel-youtube" role="tabpanel" aria-labelledby="tab-youtube" data-active="false">
-          <div class="field">
-            <label for="url-youtube">YouTube URL</label>
-            <input type="url" id="url-youtube" placeholder="https://www.youtube.com/watch?v=…" autocomplete="off" />
-            <p class="field-hint">Requires captions on the video. If unavailable, paste a transcript under “Paste text”.</p>
           </div>
         </div>
 
