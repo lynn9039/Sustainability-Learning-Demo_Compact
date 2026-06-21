@@ -28,3 +28,6 @@ Thumbs.db
 # Optional local overrides
 *.local
 .vercel
+
+# Turnstile Spin worker template (fetched locally for deploy)
+.turnstile-spin-deploy/

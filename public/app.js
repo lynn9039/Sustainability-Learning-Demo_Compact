@@ -205,6 +205,29 @@ function resetTurnstile() {
 }
 
 /**
+ * Spin siteverify Worker gate (browser → Worker → Cloudflare siteverify).
+ * @returns {Promise<boolean>}
+ */
+async function verifyTurnstileViaWorker() {
+  const workerUrl = window.TURNSTILE_SITEVERIFY_URL;
+  if (!workerUrl) return true;
+
+  try {
+    const response = await fetch(workerUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: turnstileToken }),
+    });
+    if (!response.ok) return false;
+    /** @type {{ success?: boolean }} */
+    const data = await response.json();
+    return data.success === true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * @returns {string | null} client-side error code, or null if ok
  */
 function validateClient() {
@@ -293,6 +316,12 @@ form.addEventListener("submit", async (event) => {
   downloadBtn.disabled = true;
 
   try {
+    const turnstileOk = await verifyTurnstileViaWorker();
+    if (!turnstileOk) {
+      showBanner("TURNSTILE_FAILED");
+      return;
+    }
+
     const response = await fetch("/api/generate", {
       method: "POST",
       body: buildFormData(),
