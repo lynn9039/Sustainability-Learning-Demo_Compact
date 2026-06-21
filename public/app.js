@@ -96,17 +96,36 @@ const ERROR_COPY = {
   },
 };
 
-window.onTurnstileSuccess = (token) => {
-  turnstileToken = token;
-};
+/**
+ * Read token from Turnstile callback state or the hidden response field.
+ * @returns {string}
+ */
+function getTurnstileToken() {
+  const fromCallback = (window.__turnstileToken || turnstileToken || "").trim();
+  if (fromCallback) return fromCallback;
 
-window.onTurnstileExpired = () => {
-  turnstileToken = "";
-};
+  const responseField = form.querySelector(
+    'textarea[name="cf-turnstile-response"], input[name="cf-turnstile-response"]',
+  );
+  return (responseField?.value || "").trim();
+}
 
-window.onTurnstileError = () => {
+function syncSubmitForTurnstile() {
+  submitBtn.disabled = !getTurnstileToken();
+}
+
+window.addEventListener("turnstile:ready", () => {
+  turnstileToken = window.__turnstileToken || "";
+  syncSubmitForTurnstile();
+});
+window.addEventListener("turnstile:expired", () => {
   turnstileToken = "";
-};
+  syncSubmitForTurnstile();
+});
+window.addEventListener("turnstile:error", () => {
+  turnstileToken = "";
+  syncSubmitForTurnstile();
+});
 
 /**
  * @param {string} inputType
@@ -188,13 +207,14 @@ function showBanner(code, hint) {
  * @param {boolean} busy
  */
 function setBusy(busy) {
-  submitBtn.disabled = busy;
+  submitBtn.disabled = busy || !getTurnstileToken();
   loadingEl.dataset.visible = busy ? "true" : "false";
   skeletonEl.dataset.visible = busy ? "true" : "false";
 }
 
 function resetTurnstile() {
   turnstileToken = "";
+  window.__turnstileToken = "";
   if (typeof window.turnstile !== "undefined" && window.turnstile.reset) {
     try {
       window.turnstile.reset();
@@ -202,13 +222,14 @@ function resetTurnstile() {
       /* widget may not be ready */
     }
   }
+  syncSubmitForTurnstile();
 }
 
 /**
  * @returns {string | null} client-side error code, or null if ok
  */
 function validateClient() {
-  if (!turnstileToken) return "MISSING_TURNSTILE";
+  if (!getTurnstileToken()) return "MISSING_TURNSTILE";
 
   switch (activeInputType) {
     case "link":
@@ -232,7 +253,7 @@ function validateClient() {
 function buildFormData() {
   const fd = new FormData();
   fd.append("inputType", activeInputType);
-  fd.append("turnstileToken", turnstileToken);
+  fd.append("turnstileToken", getTurnstileToken());
 
   if (activeInputType === "link") {
     fd.append("url", urlLink.value.trim());
@@ -331,3 +352,4 @@ form.addEventListener("submit", async (event) => {
 
 activateInputTab("link");
 updateTextCount();
+syncSubmitForTurnstile();

@@ -8,6 +8,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <script>
+    window.__turnstileToken = "";
+    window.onTurnstileSuccess = (token) => {
+      window.__turnstileToken = token;
+      window.dispatchEvent(new CustomEvent("turnstile:ready"));
+    };
+    window.onTurnstileExpired = () => {
+      window.__turnstileToken = "";
+      window.dispatchEvent(new CustomEvent("turnstile:expired"));
+    };
+    window.onTurnstileError = () => {
+      window.__turnstileToken = "";
+      window.dispatchEvent(new CustomEvent("turnstile:error"));
+    };
+  </script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
@@ -112,7 +127,7 @@
         </div>
 
         <div class="actions">
-          <button type="submit" class="btn btn-primary" id="submit-btn">Generate learning page</button>
+          <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Generate learning page</button>
         </div>
       </form>
     </section>
